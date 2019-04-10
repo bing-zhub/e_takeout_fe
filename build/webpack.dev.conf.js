@@ -13,6 +13,8 @@ const portfinder = require('portfinder')
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
+const jsonData = require('../data.json')
+
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
@@ -42,6 +44,17 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
+    },
+    before(app){
+      app.get('/api/goods', (req, res)=>{
+        res.send(jsonData.goods)
+      })
+      app.get('/api/sellers', (req, res)=>{
+        res.send(jsonData.sellers)
+      })
+      app.get('/api/ratings', (req, res)=>{
+        res.send(jsonData.ratings)
+      })
     }
   },
   plugins: [
