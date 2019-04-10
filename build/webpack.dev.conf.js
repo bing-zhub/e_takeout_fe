@@ -13,6 +13,7 @@ const portfinder = require('portfinder')
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
+// 模拟数据源
 const jsonData = require('../data.json')
 
 const devWebpackConfig = merge(baseWebpackConfig, {
@@ -45,6 +46,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     watchOptions: {
       poll: config.dev.poll,
     },
+
+    // 模拟数据
+
     before(app){
       app.get('/api/goods', (req, res)=>{
         res.send(jsonData.goods)
