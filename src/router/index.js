@@ -7,6 +7,8 @@ import Sellers from '@/components/sellers/sellers'
 Vue.use(Router)
 
 export default new Router({
+  // 点击后的样式 别名
+  linkActiveClass: 'active',
   routes: [
     {
       path: '/goods',
