@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-header></v-header>
+    <v-header :seller="seller"></v-header>
     <div class="tab">
       <div class="tab-item">
         <router-link to="/goods">商品</router-link>
@@ -19,8 +19,22 @@
 <script>
 import header from '@/components/header/header.vue'
 export default {
+  data () {
+    return {
+      seller: {}
+    }
+  },
   components: {
+    // header是h5标签 起别名
     'v-header': header
+  },
+  created () {
+    // 创建时 获取api
+    this.$http.get('/api/seller').then((response) => {
+      if (response.status === 200) {
+        this.seller = response.data
+      }
+    })
   }
 }
 </script>
