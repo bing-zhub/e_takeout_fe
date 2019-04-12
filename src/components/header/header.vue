@@ -34,6 +34,35 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="stylus" rel="stylesheet/stylus">
+  .header
+    color: #fff
+    background-color #000
+    .content-wrapper
+    // 上右下左
+      padding: 24px 12px 18px 24px
+      // 去除缝隙
+      font-size: 0px
+      .avatar
+        display: inline-block
+      .content
+        margin-left: 14px
+        display: inline-block
+        font-size: 14px
+        .title
+          margin: 2px 0 8px 0
+          .brand
+          // 占位 否则被挤压
+            display: inline-block
+            // 和顶部对齐
+            vertical-align: top
+            width: 30px
+            height: 18px
+            background-image: url('brand.png')
+            background-size: 30px 18px
+            background-repeat: none
+          .name
+            margin-left: 6px
+            font-size: 16px
+            line-height: 18px
 </style>
