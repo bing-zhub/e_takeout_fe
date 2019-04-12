@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!-- 通过props实现父子组件通信 -->
     <v-header :seller="seller"></v-header>
     <div class="tab">
       <div class="tab-item">
