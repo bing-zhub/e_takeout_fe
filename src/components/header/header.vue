@@ -77,7 +77,6 @@ export default {
           font-size: 12px
         .support
           .icon
-            vertical-align: top
             display: inline-block
             background-size: 12px 12px
             width: 12px
@@ -95,6 +94,7 @@ export default {
             &.special
               background-image: url('special_1.png')
           .text
+            vertical-align: top
             line-height: 12px
-            font-size: 12px
+            font-size: 11px
 </style>
