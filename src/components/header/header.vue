@@ -17,8 +17,15 @@
           <span class="text">{{seller.supports[0].description}}</span>
         </div>
       </div>
+      <div v-if="seller.supports" class="support-count">
+          <span class="count">{{seller.supports.length}}个</span>
+          <i class="icon-keyboard_arrow_right"/>
+      </div>
     </div>
-    <div class="buletin-wrapper">
+    <div class="bulletin-wrapper">
+      <span class="bulletin-title"></span>
+      <span class="bulletin-text">{{seller.bulletin}}</span>
+      <i class="icon-keyboard_arrow_right"></i>
     </div>
   </div>
 </template>
@@ -39,7 +46,7 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus">
   .header
     color: #fff
-    background-color #000
+    background-color rgba(0,0,0,0.2)
     .content-wrapper
     // 上右下左
       padding: 24px 12px 18px 24px
@@ -97,4 +104,49 @@ export default {
             vertical-align: top
             line-height: 12px
             font-size: 11px
+      .support-count
+        position: absolute
+        right: 12px
+        top: 65px
+        padding: 0 8px
+        height: 24px
+        line-height: 24px
+        background: rgba(0,0,0,0.2)
+        border-radius: 14px
+        text-align: center
+        vertical-align: bottom
+        .count
+          margin-left: 2px
+          font-size: 12px
+          vertical-align: top
+        .icon-keyboard_arrow_right
+          line-height: 24px
+          font-size: 10px
+    .bulletin-wrapper
+      position: relative
+      height: 28px
+      line-height: 28px
+      padding: 0 22px 0 12px
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+      background: rgba(7,17,27,0.2)
+      .bulletin-title
+        display: inline-block
+        vertical-align: top
+        margin-top: 8px
+        height: 12px
+        width: 22px
+        background-image: url('./bulletin.png')
+        background-size: 22px 12px
+        background-repeat: no-repeat
+      .bulletin-text
+        vertical-align: top
+        margin: 0 2px
+        font-size: 10px
+      .icon-keyboard_arrow_right
+        position: absolute
+        font-size: 12px
+        right: 12px
+        top: 8px
 </style>
