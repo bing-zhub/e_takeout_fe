@@ -27,6 +27,9 @@
       <span class="bulletin-text">{{seller.bulletin}}</span>
       <i class="icon-keyboard_arrow_right"></i>
     </div>
+    <div class="background">
+      <img :src="seller.avatar" width="100%" height="100%">
+    </div>
   </div>
 </template>
 
@@ -45,8 +48,10 @@ export default {
 
 <style lang="stylus" rel="stylesheet/stylus">
   .header
+    position: relative
+    overflow: hidden
     color: #fff
-    background-color rgba(0,0,0,0.2)
+    background: rgba(7, 17, 27, 0.3)
     .content-wrapper
     // 上右下左
       padding: 24px 12px 18px 24px
@@ -149,4 +154,12 @@ export default {
         font-size: 12px
         right: 12px
         top: 8px
+    .background
+      position: absolute
+      left: 0
+      top: 0
+      width: 100%
+      height: 100%
+      z-index: -1
+      filter: blur(10px)
 </style>
