@@ -33,7 +33,9 @@
     <div v-show="detailShow" class="detail">
       <!-- 清除浮动 -->
       <div class="detail-wrapper">
-        <div class="detail-main"></div>
+        <div class="detail-main">
+          <h1 class="name">{{seller.name}}</h1>
+        </div>
       </div>
       <div class="detail-close" @click="detailShow = false">
         <i class="icon-close"></i>
@@ -189,6 +191,7 @@ export default {
       background: rgba(7,17,27,0.8)
       .detail-wrapper
         min-height: 100%
+        width: 100%
         display inline-block
         &:after
           display: block
@@ -200,6 +203,11 @@ export default {
         .detail-main
           margin-top: 64px
           padding-bottom: 64px
+          .name
+            line-height: 16px
+            text-align: center
+            font-size: 16px
+            font-weight: 700
       .detail-close
         position: relative
         width: 32px
