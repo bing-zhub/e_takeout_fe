@@ -34,7 +34,9 @@
       <!-- 清除浮动 -->
       <div class="detail-wrapper">
         <div class="detail-main">
-          <h1 class="name">{{seller.name}}</h1>
+          <star :size="48" :score="4.2"></star>
+          <h1 class="name">{{seller.name}}
+          </h1>
         </div>
       </div>
       <div class="detail-close" @click="detailShow = false">
@@ -45,6 +47,8 @@
 </template>
 
 <script>
+import star from '@/components/star/star.vue';
+
 export default {
   props: {
     seller: {
@@ -60,6 +64,9 @@ export default {
   },
   created () {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'gurantee']
+  },
+  components:{
+    star
   }
 }
 </script>

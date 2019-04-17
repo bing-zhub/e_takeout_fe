@@ -3,7 +3,7 @@
         <span
             v-for="(itemClass, index) in itemClasses" 
             :class="itemClass"
-            class="stat-item" 
+            class="star-item" 
             :key="index"></span>
     </div>
 </template>
@@ -23,8 +23,9 @@ export default {
       }
   },
   computed: {
-      statType () {
-          return 'start-' + this.size;
+      starType () {
+          console.log(this.size)
+          return 'star-' + this.size;
       },
       itemClasses () {
           let res = [];
@@ -45,6 +46,7 @@ export default {
 </script>
 <style lang="stylus">
     .star
+        font-size: 0
         .star-item
             display: inline-block
             background-repeat: no-repeat 
