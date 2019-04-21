@@ -41,6 +41,20 @@
             <div class="text">优惠信息</div>
             <div class="line"></div>
           </div>
+          <ul v-if="seller.supports" class="supports">
+            <li
+            v-for="(item,index) in seller.supports"
+            :key="index"
+            class="support-item">
+              <span class="icon" :class="classMap[seller.supports[index].type]"></span>
+              <span class="text">{{seller.supports[index].description}}</span>
+            </li>
+          </ul>
+          <div class="title">
+            <div class="line"></div>
+            <div class="text">商家公告</div>
+            <div class="line"></div>
+          </div>
         </div>
       </div>
       <div class="detail-close" @click="detailShow = false">
@@ -66,7 +80,7 @@ export default {
   },
   methods: {},
   created () {
-    this.classMap = ['decrease', 'discount', 'special', 'invoice', 'gurantee']
+    this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
   },
   components: {
     star
@@ -277,7 +291,7 @@ export default {
           text-align: center
         }
         .title{
-          display: flex 
+          display: flex
           width: 80%
           margin: 30px auto 24px auto
           .line{
@@ -289,6 +303,51 @@ export default {
           .text{
             padding: 0 12px
             font-size: 14px
+            font-weight: 700
+          }
+        }
+        .supports{
+          width: 80%
+          margin: 0 auto
+          .support-item{
+            padding: 0 12px
+            margin-bottom : 12px
+            font-size: 0
+            &:last-child{
+               margin-bottom:0
+            }
+            .icon{
+              display: inline-block
+              width: 16px
+              height: 16px
+              vertical-align: top
+              margin-right: 6px
+              background-size: 16px 16px
+              background-repeat: no-repeat
+              &.decrease {
+                background-image: url('decrease_1.png');
+              }
+
+              &.discount {
+                background-image: url('discount_1.png');
+              }
+
+              &.guarantee {
+                background-image: url('guarantee_1.png');
+              }
+
+              &.invoice {
+                background-image: url('invoice_1.png');
+              }
+
+              &.special {
+                background-image: url('special_1.png');
+              }
+            }
+            .text{
+              line-height: 16px
+              font-size: 12px
+            }
           }
         }
       }
