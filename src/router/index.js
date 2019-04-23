@@ -11,6 +11,10 @@ export default new Router({
   linkActiveClass: 'active',
   routes: [
     {
+      path: '/',
+      redirect: 'goods'
+    },
+    {
       path: '/goods',
       name: 'goods',
       component: Goods
