@@ -1,6 +1,6 @@
 <template>
   <div class="goods">
-    <div class="menu-wrapper">
+    <div class="menu-wrapper" ref="menuWrapper">
         <ul>
             <li v-for="(item, index) in goods" :key="index" class="menu-item">
               <span class="text border-1px">
@@ -9,7 +9,7 @@
               </li>
         </ul>
     </div>
-    <div class="foods-wrapper">
+    <div class="foods-wrapper" ref="foodWrapper">
       <ul>
         <li v-for="(item, index) in goods" :key="index">
           <h1 class="title">{{item.name}}</h1>
@@ -20,7 +20,7 @@
               </div>
               <div class="content">
                 <h2 class="name">{{food.name}}</h2>
-                <p class="desc">{{food.decription}}</p>
+                <p class="desc">{{food.description}}</p>
                 <div class="extra">
                   <span class="count">月售{{food.sellCount}}份</span>
                   <span>好评率{{food.rating}}%</span>
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import BScroll from 'better-scroll'
+
 export default {
   data () {
     return {
@@ -54,9 +56,18 @@ export default {
     this.$http.get('/api/goods').then((response) => {
       if (response.ok) {
         this.goods = response.data
+        this.$nextTick(() => {
+          this._initScroll()
+        })
       }
     })
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+  },
+  methods: {
+    _initScroll () {
+      this.menuScroll = new BScroll(this.$refs.menuWrapper, {})
+      this.foodScroll = new BScroll(this.$refs.foodWrapper, {})
+    }
   }
 }
 </script>
@@ -163,7 +174,7 @@ border-none()
           margin-bottom: 8px
         .extra
           line-height: 10px
-          &.count
+          .count
             margin-right: 12px
         .price
           font-weight: 700
