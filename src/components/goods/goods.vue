@@ -2,7 +2,7 @@
   <div class="goods">
     <div class="menu-wrapper" ref="menuWrapper">
         <ul>
-            <li v-for="(item, index) in goods" :key="index" class="menu-item" :class="{'current': currentIndex===index}">
+            <li v-for="(item, index) in goods" :key="index" class="menu-item" @click="selectMenu(index, $event)" :class="{'current': currentIndex===index}">
               <span class="text border-1px">
                 <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>
                 {{item.name}}</span>
@@ -68,7 +68,9 @@ export default {
   },
   methods: {
     _initScroll () {
-      this.menuScroll = new BScroll(this.$refs.menuWrapper, {})
+      this.menuScroll = new BScroll(this.$refs.menuWrapper, {
+        click: true
+      })
       this.foodScroll = new BScroll(this.$refs.foodWrapper, {
         probeType: 3
       })
@@ -88,6 +90,15 @@ export default {
         this.listHeight.push(height)
       }
       // console.log(this.listHeight)
+    },
+    selectMenu (index, event) {
+      if (!event._constructed) {
+        return
+      }
+      let food = this.$refs.foodWrapper.getElementsByClassName('food-list-hook')
+      let el = food[index]
+      this.foodScroll.scrollToElement(el, 500)
+      // console.log(index)
     }
   },
   computed: {
