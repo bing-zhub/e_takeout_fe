@@ -35,7 +35,9 @@ export default {
       if (!event._constructed) {
         return
       }
-      this.food.count--
+      if (this.food.count) {
+        this.food.count--
+      }
     }
   }
 }
