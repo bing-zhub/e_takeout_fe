@@ -30,6 +30,9 @@
                   <span class="old" v-show="food.oldPrice">¥{{food.oldPrice}}</span>
                 </div>
               </div>
+              <div class="controller-wrapper">
+                <controller :food="food"></controller>
+              </div>
             </li>
           </ul>
         </li>
@@ -42,6 +45,7 @@
 <script>
 import BScroll from 'better-scroll'
 import ShopCart from '@/components/cart/cart.vue'
+import Controller from '@/components/controller/controller.vue'
 
 export default {
   data () {
@@ -75,6 +79,7 @@ export default {
         click: true
       })
       this.foodScroll = new BScroll(this.$refs.foodWrapper, {
+        click: true,
         probeType: 3
       })
 
@@ -119,7 +124,8 @@ export default {
     }
   },
   components: {
-    ShopCart
+    ShopCart,
+    Controller
   }
 }
 </script>
@@ -247,4 +253,8 @@ border-none()
             text-decoration: line-through
             font-size: 10px
             color: rgb(147, 153, 159)
+        .controller-wrapper
+          position: absolute
+          right: 0
+          top: 12px
 </style>
