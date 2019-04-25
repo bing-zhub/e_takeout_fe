@@ -13,7 +13,7 @@
         <router-link to="/sellers">卖家</router-link>
       </div>
     </div>
-    <router-view/>
+    <router-view :seller="seller" />
   </div>
 </template>
 
