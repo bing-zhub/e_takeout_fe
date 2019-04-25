@@ -35,11 +35,13 @@
         </li>
       </ul>
     </div>
+    <shop-cart></shop-cart>
   </div>
 </template>
 
 <script>
 import BScroll from 'better-scroll'
+import ShopCart from '@/components/cart/cart.vue'
 
 export default {
   data () {
@@ -115,6 +117,9 @@ export default {
       }
       return 0
     }
+  },
+  components: {
+    ShopCart
   }
 }
 </script>
