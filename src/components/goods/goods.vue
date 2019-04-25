@@ -58,6 +58,7 @@ export default {
     this.$http.get('/api/goods').then((response) => {
       if (response.ok) {
         this.goods = response.data
+        // 确保DOM已经渲染完毕
         this.$nextTick(() => {
           this._initScroll()
           this._calculateHeight()
