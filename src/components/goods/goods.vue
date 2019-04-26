@@ -14,7 +14,7 @@
         <li v-for="(item, index) in goods" :key="index" class="food-list-hook">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="(food, index) in item.foods" class="food-item" :key="index">
+            <li v-for="(food, index) in item.foods" class="food-item" @click="selectFood(food, $event)" :key="index">
               <div class="icon">
                 <img :src="food.icon" width="57px" height="57px">
               </div>
@@ -38,7 +38,8 @@
         </li>
       </ul>
     </div>
-    <shop-cart :selected-foods="selectedFood" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shop-cart>
+    <product :food="selectedFood" ref="food"></product>
+    <shop-cart :selected-foods="selectedFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shop-cart>
   </div>
 </template>
 
@@ -46,13 +47,16 @@
 import BScroll from 'better-scroll'
 import ShopCart from '@/components/cart/cart.vue'
 import Controller from '@/components/controller/controller.vue'
+import Product from '@/components/product/product.vue'
+
 
 export default {
   data () {
     return {
       goods: [],
       listHeight: [],
-      scrollY: 0
+      scrollY: 0,
+      selectedFood: {}
     }
   },
   props: {
@@ -107,6 +111,14 @@ export default {
       let el = food[index]
       this.foodScroll.scrollToElement(el, 500)
       // console.log(index)
+    },
+    selectFood (food, event) {
+      if (!event._constructed) {
+        return
+      }
+      this.selectedFood = food
+      // console.log(this.selectedFood)
+      this.$refs.food.show()
     }
   },
   computed: {
@@ -122,7 +134,7 @@ export default {
       }
       return 0
     },
-    selectedFood () {
+    selectedFoods () {
       let foods = []
       this.goods.forEach((good) => {
         good.foods.forEach((food) => {
@@ -137,7 +149,8 @@ export default {
   },
   components: {
     ShopCart,
-    Controller
+    Controller,
+    Product
   }
 }
 </script>
