@@ -6,21 +6,30 @@
         <div class="back" @click="hide">
           <i class="icon-arrow_lift"></i>
         </div>
-        <div class="content">
-          <h1 class="title">{{food.name}}</h1>
-            <div class="detail">
-              <span class="sell-count">月售{{food.sellCount}}份</span>
-              <span class="rating">好评率{{food.rating}}%</span>
-            </div>
-          <div class="price">
-            <span class="now">{{food.price}}元</span><span class="old" v-show="food.oldPrice">{{food.oldPrice}}元</span>
-          </div>
+      </div>
+      <div class="content">
+        <h1 class="title">{{food.name}}</h1>
+        <div class="detail">
+          <span class="sell-count">月售{{food.sellCount}}份</span>
+          <span class="rating">好评率{{food.rating}}%</span>
+        </div>
+        <div class="price">
+          <span class="now">{{food.price}}元</span><span class="old" v-show="food.oldPrice">{{food.oldPrice}}元</span>
         </div>
         <div class="controller-wrapper" v-show="food.count && food.count!==0">
           <controller :food="food"></controller>
         </div>
-        <div class="add" v-show="!food.count || food.count ===0" @click="addToCart()">加入购入车</div>
+        <div class="add" v-show="!food.count || food.count ===0" @click="addToCart($event)">加入购入车</div>
       </div>
+    </div>
+    <spacer v-show="food.info"/>
+    <div class="info" v-show="food.info">
+      <h1 class="title">商品介绍</h1>
+      <p class="text">{{food.info}}</p>
+    </div>
+    <spacer/>
+    <div class="rating">
+      <h1 class="title">评价</h1>
     </div>
   </div>
 </template>
@@ -29,6 +38,7 @@
 import BScroll from 'better-scroll'
 import Controller from '@/components/controller/controller.vue'
 import Vue from 'vue'
+import Spacer from '@/components/spacer/spacer.vue'
 
 export default {
   props: {
@@ -57,12 +67,16 @@ export default {
     hide () {
       this.showFlag = false
     },
-    addToCart () {
+    addToCart (event) {
+      if (!event._constructed) {
+        return
+      }
       Vue.set(this.food, 'count', 1)
     }
   },
   components: {
-      Controller
+      Controller,
+      Spacer
   }
 }
 </script>
@@ -124,21 +138,33 @@ export default {
         text-decoration: line-through
         font-size: 10px
         color: rgb(147, 153, 159)
-  .controller-wrapper
-    position: absolute
-    right: 18px
-    bottom: -60px
-  .add
-    position: absolute
-    right: 18px
-    bottom: -60px
-    z-index: 10
-    height: 24px
-    line-height: 24px
-    padding: 0 12px
-    box-sizing: border-box
-    border-radius: 12px
-    font-size: 10px
-    color: #ffffff
-    background: rgb(0, 160, 220)  
+    .controller-wrapper
+      position: absolute
+      right: 18px
+      bottom: 14px
+    .add
+      position: absolute
+      right: 18px
+      bottom: 14px
+      z-index: 10
+      height: 24px
+      line-height: 24px
+      padding: 0 12px
+      box-sizing: border-box
+      border-radius: 12px
+      font-size: 10px
+      color: #ffffff
+      background: rgb(0, 160, 220)
+  .info
+    padding: 18px
+    .title
+      line-height: 14px
+      margin-bottom: 6px
+      font-size: 14px
+      color: rgb(7, 17, 27)
+    .text
+      line-height: 24px
+      padding: 0 8px
+      font-size: 12px
+      color: rgb(77, 85, 93)
 </style>
