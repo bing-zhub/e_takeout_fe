@@ -1,5 +1,5 @@
 <template>
-  <div v-show="showFlag" class="food" ref="product">
+  <div v-show="showFlag" class="food" ref="productPage">
     <div class="product-content">
       <div class="image-header">
         <img :src="food.image">
@@ -13,23 +13,24 @@
           <span class="sell-count">月售{{food.sellCount}}份</span>
           <span class="rating">好评率{{food.rating}}%</span>
         </div>
-        <div class="price">
-          <span class="now">{{food.price}}元</span><span class="old" v-show="food.oldPrice">{{food.oldPrice}}元</span>
-        </div>
         <div class="controller-wrapper" v-show="food.count && food.count!==0">
           <controller :food="food"></controller>
         </div>
         <div class="add" v-show="!food.count || food.count ===0" @click="addToCart($event)">加入购入车</div>
+        <div class="price">
+          <span class="now">{{food.price}}元</span><span class="old" v-show="food.oldPrice">{{food.oldPrice}}元</span>
+        </div>
       </div>
-    </div>
-    <spacer v-show="food.info"/>
-    <div class="info" v-show="food.info">
-      <h1 class="title">商品介绍</h1>
-      <p class="text">{{food.info}}</p>
-    </div>
-    <spacer/>
-    <div class="rating">
-      <h1 class="title">评价</h1>
+      <spacer v-show="food.info"/>
+      <div class="info" v-show="food.info">
+        <h1 class="title">商品介绍</h1>
+        <p class="text">{{food.info}}</p>
+      </div>
+      <spacer/>
+      <div class="rating">
+        <h1 class="title">评价</h1>
+      </div>
+      <rating :type="type" :with-text="withText" :desc="desc"/>
     </div>
   </div>
 </template>
@@ -39,6 +40,11 @@ import BScroll from 'better-scroll'
 import Controller from '@/components/controller/controller.vue'
 import Vue from 'vue'
 import Spacer from '@/components/spacer/spacer.vue'
+import Rating from '@/components/rating/rating.vue'
+
+const POS = 0
+const NEG = 1
+const ALL = 2
 
 export default {
   props: {
@@ -50,19 +56,33 @@ export default {
   },
   data () {
     return {
-      showFlag: false
+      showFlag: false,
+      type: ALL,
+      withText: true,
+      desc: {
+        all: '全部',
+        positive: '推荐',
+        negative: '吐槽'
+      }
     }
   },
   methods: {
     show () {
       this.showFlag = true
-      if (!this.scroll) {
-        this.scroll = new BScroll(this.$refs.product, {
-          click: true
-        })
-      } else {
-        this.scroll.refresh()
-      }
+      this.type = ALL
+      this.withText = true
+      console.log(1)
+      this.$nextTick(() => {
+        if (!this.scroll) {
+          console.log(2)
+          this.scroll = new BScroll(this.$refs.productPage, {
+            click: true
+          })
+        } else {
+          console.log(3)
+          this.scroll.refresh()
+        }
+      })
     },
     hide () {
       this.showFlag = false
@@ -75,8 +95,9 @@ export default {
     }
   },
   components: {
-      Controller,
-      Spacer
+    Controller,
+    Spacer,
+    Rating
   }
 }
 </script>
@@ -109,7 +130,7 @@ export default {
         display: block
         padding: 10px
         font-size: 20px
-        color: #151c25
+        color: #fff
   .content
     padding: 18px
     .title
@@ -139,22 +160,18 @@ export default {
         font-size: 10px
         color: rgb(147, 153, 159)
     .controller-wrapper
-      position: absolute
-      right: 18px
-      bottom: 14px
+      display: inline-block
+      float: right
     .add
-      position: absolute
-      right: 18px
-      bottom: 14px
-      z-index: 10
-      height: 24px
+      display: inline-block
+      float: right
       line-height: 24px
       padding: 0 12px
       box-sizing: border-box
       border-radius: 12px
       font-size: 10px
       color: #ffffff
-      background: rgb(0, 160, 220)
+      background: rgb(0, 160, 220) 
   .info
     padding: 18px
     .title
@@ -167,4 +184,11 @@ export default {
       padding: 0 8px
       font-size: 12px
       color: rgb(77, 85, 93)
+  .rating
+    padding-top: 18px
+    .title
+      line-height: 18px
+      margin-left: 18px
+      font-size: 14px
+      color: rgb(7, 17, 27)
 </style>
