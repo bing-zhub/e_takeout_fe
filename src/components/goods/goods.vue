@@ -14,11 +14,11 @@
         <li v-for="(item, index) in goods" :key="index" class="food-list-hook">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="(food, index) in item.foods" class="food-item" @click="selectFood(food, $event)" :key="index">
+            <li v-for="(food, index) in item.foods" class="food-item" :key="index">
               <div class="icon">
                 <img :src="food.icon" width="57px" height="57px">
               </div>
-              <div class="content">
+              <div class="content" @click="selectFood(food, $event)">
                 <h2 class="name">{{food.name}}</h2>
                 <p class="desc">{{food.description}}</p>
                 <div class="extra">
@@ -48,7 +48,6 @@ import BScroll from 'better-scroll'
 import ShopCart from '@/components/cart/cart.vue'
 import Controller from '@/components/controller/controller.vue'
 import Product from '@/components/product/product.vue'
-
 
 export default {
   data () {
