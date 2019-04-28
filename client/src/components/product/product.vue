@@ -92,12 +92,32 @@ export default {
         return
       }
       Vue.set(this.food, 'count', 1)
+    },
+    onBrowserBack () {
+      this.hide()
     }
   },
   components: {
     Controller,
     Spacer,
     Rating
+  },
+  mounted () {
+    window.history.pushState(null, null, document.URL)
+    window.addEventListener('popstate', this.onBrowserBack, false)
+  },
+  destroyed() {
+    window.removeEventListener('popstate', this.onBrowserBack, false)
+  },
+  watch: {
+    PopupShow: {
+      handler (newVal, oldVal) {
+        if (newVal.Terms === true) {
+          window.history.pushState(null, null, document.URL);
+        }
+      },
+      deep: true
+    }
   }
 }
 </script>
