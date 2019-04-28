@@ -71,15 +71,15 @@ export default {
       this.showFlag = true
       this.type = ALL
       this.withText = true
-      console.log(1)
+      // console.log(1)
       this.$nextTick(() => {
         if (!this.scroll) {
-          console.log(2)
+          // console.log(2)
           this.scroll = new BScroll(this.$refs.productPage, {
             click: true
           })
         } else {
-          console.log(3)
+          // console.log(3)
           this.scroll.refresh()
         }
       })

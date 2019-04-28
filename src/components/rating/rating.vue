@@ -5,9 +5,9 @@
           <span class="block positive" :class="{'active': selectType===0}">{{desc.positive}}<span class="count">47</span></span>
           <span class="block negative" :class="{'active': selectType===1}">{{desc.negative}}<span class="count">47</span></span>
       </div>
-      <div class="swirch">
+      <div class="switch" :class="{'active':withText}">
           <span class="icon-check_circle"></span>
-          <span class="onlyText">只看内容和评价</span>
+          <span class="only-text">只看内容和评价</span>
       </div>
   </div>
 </template>
@@ -87,4 +87,19 @@ border-1px($color)
           background: rgba(77, 85, 93, 0.2)
           &.active
             background: rgb(77, 85, 93)
+    .switch
+      padding: 12px 18px
+      line-height: 24px
+      border-bottom: 1px solid rgba(7, 17, 27, 0.1)
+      color: rgb(147, 153, 159)
+      &.active
+        .icon-check_circle
+          color: #00c850
+      .icon-check_circle
+        display: inline-block
+        vertical-align: top  
+        font-size: 24px
+        margin-right: 7px
+      &.only-text
+        font-size: 12px
 </style>

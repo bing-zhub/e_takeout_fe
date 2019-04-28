@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <div class="mask" v-show="listShow"></div>
+    <div class="mask" v-show="listShow" @click="toggleList()"></div>
   </div>
 </template>
 
