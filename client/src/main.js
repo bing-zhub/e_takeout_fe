@@ -4,10 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
+import VueCookies from 'vue-cookies'
 
 import './common/stylus/icon.styl'
 Vue.config.productionTip = false
 Vue.use(VueResource)
+Vue.use(VueCookies)
 
 /* eslint-disable no-new */
 new Vue({

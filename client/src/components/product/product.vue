@@ -106,14 +106,14 @@ export default {
     window.history.pushState(null, null, document.URL)
     window.addEventListener('popstate', this.onBrowserBack, false)
   },
-  destroyed() {
+  destroyed () {
     window.removeEventListener('popstate', this.onBrowserBack, false)
   },
   watch: {
     PopupShow: {
       handler (newVal, oldVal) {
         if (newVal.Terms === true) {
-          window.history.pushState(null, null, document.URL);
+          window.history.pushState(null, null, document.URL)
         }
       },
       deep: true
@@ -191,7 +191,7 @@ export default {
       border-radius: 12px
       font-size: 10px
       color: #ffffff
-      background: rgb(0, 160, 220) 
+      background: rgb(0, 160, 220)
   .info
     padding: 18px
     .title

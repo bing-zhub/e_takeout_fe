@@ -68,17 +68,17 @@ border-1px($color)
       .block
         border-radius: 2px
         margin-right: 8px
-        color: #fff 
+        color: #fff
         font-size: 12px
         display: inline-block
         padding: 8px 12px
         color: rgb(77, 85, 93)
         &.active
-          color: #fff  
+          color: #fff
         .count
           font-size: 8px
           margin-left: 2px
-          line-height: 16px  
+          line-height: 16px
         &.positive
           background: rgba(0, 160, 220, 0.2)
           &.active
@@ -97,7 +97,7 @@ border-1px($color)
           color: #00c850
       .icon-check_circle
         display: inline-block
-        vertical-align: top  
+        vertical-align: top
         font-size: 24px
         margin-right: 7px
       &.only-text

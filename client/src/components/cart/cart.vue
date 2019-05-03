@@ -13,7 +13,7 @@
                 <div class="desc">另需配送费{{deliveryPrice}}元</div>
             </div>
             <div class="content-right">
-                <div class="pay" :class="{'check': payStatus==='去支付'}">{{payStatus}}</div>
+                <div class="pay" :class="{'check': payStatus==='去支付'}" @click="checkTheOrder">{{payStatus}}</div>
             </div>
             <div class="cart-list" v-show="listShow">
               <div class="list-header">
@@ -130,6 +130,9 @@ export default {
       if (!this.fold) {
         this.toggleList()
       }
+    },
+    checkTheOrder () {
+      alert(this.$cookies.get('openid'))
     }
   },
   data () {
@@ -141,14 +144,14 @@ export default {
     window.history.pushState(null, null, document.URL)
     window.addEventListener('popstate', this.onBrowserBack, false)
   },
-  destroyed() {
+  destroyed () {
     window.removeEventListener('popstate', this.onBrowserBack, false)
   },
   watch: {
     PopupShow: {
       handler (newVal, oldVal) {
         if (newVal.Terms === true) {
-          window.history.pushState(null, null, document.URL);
+          window.history.pushState(null, null, document.URL)
         }
       },
       deep: true

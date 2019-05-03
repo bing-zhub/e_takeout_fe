@@ -49,6 +49,12 @@ import ShopCart from '@/components/cart/cart.vue'
 import Controller from '@/components/controller/controller.vue'
 import Product from '@/components/product/product.vue'
 
+const config = {
+  sellUrl: 'http://192.168.236.36:3000',
+  openidUrl: 'http://shaoping.natapp1.cc/wechat/authorize',
+  wechatPayUrl: 'http://shaoping.natapp1.cc/pay/create'
+}
+
 export default {
   data () {
     return {
@@ -64,6 +70,18 @@ export default {
     }
   },
   created () {
+    var openid = this.$route.query.openid
+    if (typeof openid !== 'undefined') {
+      // 路径中存在OpenId
+      this.$cookies.set('openid', openid, 3600)
+      console.log(this.$cookies)
+    }
+    // 获取openid
+    if (this.$cookies.get('openid') === null) {
+      // cookie中不存在openid
+      let href = config.openidUrl + '?returnUrl=' + encodeURIComponent(config.sellUrl + '/#/goods')
+      location.href = href
+    }
     this.$http.get('/api/goods').then((response) => {
       if (response.ok) {
         this.goods = response.data
