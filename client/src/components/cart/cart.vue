@@ -132,7 +132,7 @@ export default {
       }
     },
     checkTheOrder () {
-      alert(this.$cookies.get('openid'))
+      this.$router.push('/check')
     }
   },
   data () {
