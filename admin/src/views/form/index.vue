@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import request from '@/utils/request'
+
 export default {
   data() {
     return {
@@ -66,12 +68,30 @@ export default {
   methods: {
     onSubmit() {
       this.$message('submit!')
+      request({
+        url: '/user/login',
+        method: 'post',
+        data: this.form
+      })
+      this.clearData()
     },
     onCancel() {
       this.$message({
         message: 'cancel!',
         type: 'warning'
       })
+    },
+    clearData() {
+      this.form = {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      }
     }
   }
 }
