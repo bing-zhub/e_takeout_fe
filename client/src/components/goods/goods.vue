@@ -166,7 +166,6 @@ export default {
   },
   watch:{
     selectedFoods (val) {
-      console.log(val)
       this.$store.commit('updateSelectedFoods', val)
     } 
   },

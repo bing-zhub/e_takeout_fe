@@ -81,7 +81,6 @@ export default {
           'address': this.address,
           'items': goods
         }
-        console.log(JSON.stringify(body))
       this.$http
         .post('/api/consumer/order/create', JSON.stringify(body))
         .then(respones => {

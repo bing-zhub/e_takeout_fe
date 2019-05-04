@@ -4,6 +4,8 @@ import Goods from '@/components/goods/goods'
 import Ratings from '@/components/ratings/ratings'
 import Sellers from '@/components/sellers/sellers'
 import Check from '@/components/check/check.vue'
+import OrderList from '@/components/order/order.vue'
+import OrderDetail from '@/components/order/detail.vue'
 
 Vue.use(Router)
 
@@ -33,6 +35,12 @@ export default new Router({
       path: '/check',
       name: 'check',
       component: Check
+    }, {
+      path: '/order',
+      component: OrderList
+    }, {
+        path: '/order/:orderId',
+        component: OrderDetail
     }
   ]
 })
