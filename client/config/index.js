@@ -6,7 +6,15 @@ module.exports = {
   dev: {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/api':{
+        target:'http://shaoping.natapp1.cc',
+        changeOrigin:true,
+        pathRewrite:{
+          '/api':''
+        }
+      }
+    },
     host: 'localhost',
     port: 3000, 
     autoOpenBrowser: true,

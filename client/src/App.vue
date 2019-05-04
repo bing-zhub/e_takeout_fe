@@ -34,6 +34,7 @@ export default {
     this.$http.get('/api/seller').then((response) => {
       if (response.status === 200) {
         this.seller = response.data
+        this.$store.commit('updateSeller', this.seller)
       }
     })
   }

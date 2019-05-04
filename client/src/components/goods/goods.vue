@@ -50,9 +50,10 @@ import Controller from '@/components/controller/controller.vue'
 import Product from '@/components/product/product.vue'
 
 const config = {
-  sellUrl: 'http://192.168.236.36:3000',
+  sellUrl: 'http://192.168.123.182:3000',
   openidUrl: 'http://shaoping.natapp1.cc/wechat/authorize',
-  wechatPayUrl: 'http://shaoping.natapp1.cc/pay/create'
+  wechatPayUrl: 'http://shaoping.natapp1.cc/pay/create',
+  goodsApi: 'http://127.0.0.1:8080/consumer/product/list',
 }
 
 export default {
@@ -74,7 +75,6 @@ export default {
     if (typeof openid !== 'undefined') {
       // 路径中存在OpenId
       this.$cookies.set('openid', openid, 3600)
-      console.log(this.$cookies)
     }
     // 获取openid
     if (this.$cookies.get('openid') === null) {
@@ -82,9 +82,9 @@ export default {
       let href = config.openidUrl + '?returnUrl=' + encodeURIComponent(config.sellUrl + '/#/goods')
       location.href = href
     }
-    this.$http.get('/api/goods').then((response) => {
+    this.$http.get('/api/consumer/product/list').then((response) => {
       if (response.ok) {
-        this.goods = response.data
+        this.goods = response.body.data
         // 确保DOM已经渲染完毕
         this.$nextTick(() => {
           this._initScroll()
@@ -160,9 +160,15 @@ export default {
           }
         })
       })
-      // console.log(foods)
+
       return foods
     }
+  },
+  watch:{
+    selectedFoods (val) {
+      console.log(val)
+      this.$store.commit('updateSelectedFoods', val)
+    } 
   },
   components: {
     ShopCart,

@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Goods from '@/components/goods/goods'
 import Ratings from '@/components/ratings/ratings'
 import Sellers from '@/components/sellers/sellers'
+import Check from '@/components/check/check.vue'
 
 Vue.use(Router)
 
@@ -28,6 +29,10 @@ export default new Router({
       path: '/sellers',
       name: 'sellers',
       component: Sellers
+    },{
+      path: '/check',
+      name: 'check',
+      component: Check
     }
   ]
 })
