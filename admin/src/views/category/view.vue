@@ -2,6 +2,7 @@
   <div class="app-container">
     <el-button type="text" @click="handleAdd">添加类目</el-button>
     <el-button type="text" @click="handleExport">导出Excel</el-button>
+    <el-button type="text" @click="importDialogVisible = true">导入Excel</el-button>
     <el-table v-loading="listLoading" :data="list" :default-sort = "{prop: 'created_at', order: 'descending'}" stripe element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column align="center" label="ID" width="95" sortable prop="category_id"></el-table-column>
       <el-table-column label="名称" prop="category_name"></el-table-column>
@@ -33,12 +34,21 @@
             </el-form-item>
         </el-form>
     </el-dialog>
+    <el-dialog title="导入数据" :visible.sync="importDialogVisible" width="50%" :before-close="handleClose">
+      <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" />
+      <el-button v-if="tableData.length!==0" style="width: 100%;margin-top:20px;" @click="handleImport">导入</el-button>
+      <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
+        <el-table-column v-for="item of tableHeader" :key="item" :prop="item" :label="item" />
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { getList } from '@/api/table'
 import request from '@/utils/request'
+import UploadExcelComponent from '@/components/UploadExcel/index.vue'
+
 
 export default {
   filters: {
@@ -71,8 +81,14 @@ export default {
         region: ''
       },
       title: '添加类目',
-      btnText: '添加'
+      btnText: '添加',
+      tableData: [],
+      tableHeader: [],
+      importDialogVisible: false
     }
+  },
+  components: {
+    UploadExcelComponent
   },
   created() {
     this.fetchData()
@@ -183,6 +199,50 @@ export default {
         method: 'post',
         data: this.form
       })
+    },
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+
+      if (isLt1M) {
+        return true
+      }
+
+      this.$message({
+        message: 'Please do not upload files larger than 1m in size.',
+        type: 'warning'
+      })
+      return false
+    },
+    handleSuccess({ results, header }) {
+      this.tableData = results
+      this.tableHeader = header
+    },
+    handleImport() {
+      const tHeader =  ['ID', '名称', '标识', '创建时间']
+      if(this.tableHeader.toString() !== tHeader.toString()){
+        this.$message({
+          message: '格式不正确, 请按导出格式修改!',
+          type: 'warning'
+        })
+      }
+      this.tableData.forEach((item)=> {
+        request({
+          url: '/create',
+          method: 'post',
+          data: {
+            name: item.名称,
+            region: item.标识
+          }
+        }).then((res)=> {
+          if(res.code===0){
+            this.$message({
+              message: res.data.msg + '导入成功',
+              type: 'info'
+            })
+          }
+        })
+      })
+      
     }
   }
 }
