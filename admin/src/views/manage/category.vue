@@ -225,24 +225,26 @@ export default {
           type: 'warning'
         })
       }
+      let data = []
       this.tableData.forEach((item)=> {
-        request({
+        let t = {
+          categoryName: item.名称,
+          categoryType: item.标识
+        }
+        data.push(t)
+      })
+      request({
           url: '/create',
           method: 'post',
-          data: {
-            name: item.名称,
-            region: item.标识
-          }
+          data
         }).then((res)=> {
           if(res.code===0){
             this.$message({
-              message: res.data.msg + '导入成功',
-              type: 'info'
+              message: res.data.msg + '条数据导入成功',
+              type: 'success'
             })
           }
         })
-      })
-      
     }
   }
 }

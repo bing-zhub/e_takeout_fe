@@ -52,17 +52,27 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/category',
+    path: '/manage',
     component: Layout,
-    redirect: '/category/view',
+    redirect: '/manage/category',
     name: '管理',
     meta: { title: '管理', icon: 'form' },
     children: [
       {
-        path: 'view',
+        path: 'category',
         name: '类目管理',
-        component: () => import('@/views/category/view'),
+        component: () => import('@/views/manage/category'),
         meta: { title: '类目管理', icon: 'form' }
+      },{
+        path: 'product/add',
+        name: '添加商品',
+        component: () => import('@/views/manage/addProduct'),
+        meta: { title: '添加商品', icon: 'form' }
+      },{
+        path: 'qiniu',
+        name: '上传',
+        component: () => import('@/views/manage/qiniu'),
+        meta: { title: '上传', icon: 'form' }
       }
     ]
   },
