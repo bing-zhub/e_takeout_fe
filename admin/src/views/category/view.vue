@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
     <el-button type="text" @click="handleAdd">添加类目</el-button>
+    <el-button type="text" @click="handleExport">导出Excel</el-button>
     <el-table v-loading="listLoading" :data="list" :default-sort = "{prop: 'created_at', order: 'descending'}" stripe element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column align="center" label="ID" width="95" sortable prop="category_id"></el-table-column>
       <el-table-column label="名称" prop="category_name"></el-table-column>
@@ -77,6 +78,15 @@ export default {
     this.fetchData()
   },
   methods: {
+    formatDate(val){
+      let date = new Date(val)
+      let year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let day = date.getDate()
+      let hour = date.getHours()
+      let minutes = date.getMinutes()
+      return year+'-'+month+'-'+day+' '+hour+':'+minutes
+    },
     fetchData() {
       this.listLoading = true
       request({
@@ -87,8 +97,26 @@ export default {
         this.listLoading = false
       })
     },
-    addCategory() {
-
+    handleExport() {
+      const tHeader =  ['ID', '名称', '标识', '创建时间']
+      const data = this.convertToArray()
+      import('@/vendor/Export2Excel').then(excel => {
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: 'excel-list',
+          autoWidth: true,
+          bookType: 'xlsx'
+        })
+      })
+    },
+    convertToArray(){
+      const ret = []
+      this.list.forEach((item)=> {
+        let one = [item.category_id, item.category_name, item.category_type, this.formatDate(item.create_time)]
+        ret.push(one)
+      })
+      return ret
     },
     handleClose(done) {
         this.$confirm('取消添加？')
