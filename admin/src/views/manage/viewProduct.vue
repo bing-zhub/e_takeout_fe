@@ -4,11 +4,17 @@
       <h1 style="font-weight:400; color:#589ef8">商品管理</h1>
     </el-header>
     <el-main style="margin-top: 24px">
-      <el-table fit highlight-current-row v-loading="listLoading" :data="tableData" style="width: 100%">
+      <el-table
+        fit
+        highlight-current-row
+        v-loading="listLoading"
+        :data="tableData"
+        style="width: 100%"
+      >
         <el-table-column prop="food.sellCount" label="总销量" sortable></el-table-column>
         <el-table-column prop="food.image" label="图片" width="180">
           <template slot-scope="scope">
-            <img :src="scope.row.food.image" :width="120" :height="120"/>
+            <img :src="scope.row.food.image" :width="120" :height="120">
           </template>
         </el-table-column>
         <el-table-column prop="food.name" label="商品名"></el-table-column>
@@ -31,49 +37,54 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-dialog
-        :title="title"
-        :visible.sync="dialogVisible"
-        width="75%"
-        :before-close="handleClose"
-      >
-        <el-form>
-          <el-form-item label="类型" prop="type">
-            <el-radio-group v-model="form.type">
-              <el-radio v-for="(item, index) in tags" :key="index" :label="item.value">{{item.text}}</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="现价" prop="price">
-            <el-input-number v-model="form.price" controls-position="right"/>
-          </el-form-item>
-          <el-form-item label="原价">
-            <el-input-number v-model="form.oldPrice" controls-position="right"/>
-          </el-form-item>
-          <el-form-item label="描述">
-            <el-input v-model="form.description"/>
-          </el-form-item>
-          <el-form-item label="信息">
-            <el-input v-model="form.info"/>
-          </el-form-item>
-          <el-form-item prop="image" style="margin-bottom: 30px;">
-            <Upload v-model="form.image"/>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit(form)" style="width: 100%">修改</el-button>
-          </el-form-item>
-        </el-form>
-      </el-dialog>
+      <pagination
+        v-show="total>0"
+        :total="total"
+        :page.sync="page"
+        :limit.sync="recordPerPage"
+        @pagination="filterPage"
+      />
     </el-main>
+    <el-dialog :title="title" :visible.sync="dialogVisible" width="75%" :before-close="handleClose">
+      <el-form>
+        <el-form-item label="类型" prop="type">
+          <el-radio-group v-model="form.type">
+            <el-radio v-for="(item, index) in tags" :key="index" :label="item.value">{{item.text}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="现价" prop="price">
+          <el-input-number v-model="form.price" controls-position="right"/>
+        </el-form-item>
+        <el-form-item label="原价">
+          <el-input-number v-model="form.oldPrice" controls-position="right"/>
+        </el-form-item>
+        <el-form-item label="描述">
+          <el-input v-model="form.description"/>
+        </el-form-item>
+        <el-form-item label="信息">
+          <el-input v-model="form.info"/>
+        </el-form-item>
+        <el-form-item prop="image" style="margin-bottom: 30px;">
+          <Upload v-model="form.image"/>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit(form)" style="width: 100%">修改</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </el-container>
 </template>
 
 <script>
 import request from "@/utils/request";
 import Upload from "@/components/Upload/SingleImage";
+import Pagination from "@/components/Pagination";
+import { setTimeout } from 'timers';
 
 export default {
   data() {
     return {
+      totalData: [],
       tableData: [],
       listLoading: false,
       tags: [],
@@ -89,18 +100,27 @@ export default {
         type: ""
       },
       title: "修改商品",
-      dialogVisible: false
+      dialogVisible: false,
+      total: 0,
+      page: 1,
+      recordPerPage: 10
     };
   },
-  components: {
-    Upload
-  },
+  components: { Upload, Pagination },
   methods: {
     filterTag(value, row) {
       return value === row.type.value;
     },
+    filterPage(){
+      let start = (this.page-1)*this.recordPerPage
+      let end = this.page*this.recordPerPage-1
+      let t = this.totalData.length - start;
+      end = Math.min(end, start+t-1) + 1;
+      this.tableData =  this.totalData.slice(start, end)
+    },
     fetchData() {
       this.listLoading = true;
+      this.total = 0;
       request({
         url: "/product/list",
         method: "get"
@@ -117,11 +137,17 @@ export default {
               type,
               food
             };
-            this.tableData.push(item);
+            this.totalData.push(item);
           });
+          this.total += category.foods.length;
         });
       });
-      this.listLoading = false;
+
+      var context = this;
+      setTimeout(function(){
+        context.filterPage()
+        context.listLoading = false;
+      }, 100)
     },
     handleEdit(index, row) {
       this.dialogVisible = true;
@@ -151,8 +177,8 @@ export default {
         data: this.form
       });
       this.$message({
-          message: '修改成功',
-          type: 'success'
+        message: "修改成功",
+        type: "success"
       });
       this.dialogVisible = false;
     },
