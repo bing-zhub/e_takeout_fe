@@ -63,12 +63,12 @@ export const constantRoutes = [
         name: '类目管理',
         component: () => import('@/views/manage/category'),
         meta: { title: '类目管理', icon: 'form' }
-      },{
+      }, {
         path: 'product/add',
         name: '添加商品',
         component: () => import('@/views/manage/addProduct'),
         meta: { title: '添加商品', icon: 'form' }
-      },{
+      }, {
         path: 'qiniu',
         name: '上传',
         component: () => import('@/views/manage/qiniu'),

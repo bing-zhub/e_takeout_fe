@@ -108,7 +108,7 @@ export default {
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
           }).catch((error) => {
-            console.log('catch ' + error )
+            console.log('catch ' + error)
             this.loading = false
           })
         } else {
