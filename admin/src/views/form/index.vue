@@ -49,6 +49,7 @@
 
 <script>
 import request from '@/utils/request'
+import { login } from '@/api/user'
 
 export default {
   data() {
@@ -68,11 +69,7 @@ export default {
   methods: {
     onSubmit() {
       this.$message('submit!')
-      request({
-        url: '/user/login',
-        method: 'post',
-        data: this.form
-      })
+      login(this.form)
       this.clearData()
     },
     onCancel() {
