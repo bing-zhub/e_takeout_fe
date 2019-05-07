@@ -10,15 +10,15 @@
       </div>
       <!---->
       <h1 class="statustext">{{order.orderStatus | orderStatusName}}</h1>
-      <!--<img  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAcCAMAAABf788oAAAAbFBMVEUAAAAzMzMzMzM2NjYzMzM1NTU0NDRAQEAzMzM0NDRAQEAzMzM0NDQzMzM0NDQ0NDQ0NDQzMzMzMzMzMzM0NDQ1NTU2NjY5OTk0NDQ0NDQzMzM0NDQzMzM0NDQ1NTU0NDQzMzM0NDQ3NzczMzMku2ijAAAAI3RSTlMA+/Yi4Do2CnhIBO/o176uopeGb2VALhsT8c/LtI2DXVVTM3zB6zwAAACGSURBVBjTfdBJEsIwDETRJHZMRkgIGZiHf/874mVbRaFdv42kzn6MCybnjAkE4JjIAFQKzQE4qez2wCuRK+S1ytZDUaqsHtpFxXXQOZWlBb+qlEWUTaXO4ZIs78Gb83R1c4PzRx8ypw0xz5JH88w95rfkB/CUXJmCJmDSP22lwZaezSH7N19vZgteSBxyaAAAAABJRU5ErkJggg==" class="arrow" />-->
+      <!--<img  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAcCAMAAABf788oAAAAbFBMVEUAAAAzMzMzMzM2NjYzMzM1NTU0NDRAQEAzMzM0NDRAQEAzMzM0NDQzMzM0NDQ0NDQ0NDQzMzMzMzMzMzM0NDQ1NTU2NjY5OTk0NDQ0NDQzMzM0NDQzMzM0NDQ1NTU0NDQzMzM0NDQ3NzczMzMku2ijAAAAI3RSTlMA+/Yi4Do2CnhIBO/o176uopeGb2VALhsT8c/LtI2DXVVTM3zB6zwAAACGSURBVBjTfdBJEsIwDETRJHZMRkgIGZiHf/874mVbRaFdv42kzn6MCybnjAkE4JjIAFQKzQE4qez2wCuRK+S1ytZDUaqsHtpFxXXQOZWlBb+qlEWUTaXO4ZIs78Gb83R1c4PzRx8ypw0xz5JH88w95rfkB/CUXJmCJmDSP22lwZaezSH7N19vZgteSBxyaAAAAABJRU5ErkJggg===" class="arrow" />-->
       <!---->
       <div class="buttons">
         <button
-          v-if="order.orderStatus == 0 && order.payStatus == 0"
+          v-if="order.orderStatus === 0 && order.payStatus === 0"
           @click="pay(order.orderId)"
         >去支付</button>
         <button
-          v-if="order.orderStatus == 0"
+          v-if="order.orderStatus === 0"
           @click="cancelOrder(order.orderId)"
         >{{cancelOrderName}}</button>
       </div>
@@ -29,7 +29,7 @@
           <img class="avatar" src="//fuss10.elemecdn.com/2/e4/bff50bab2840cdfbffeaf13a20710png.png">
           <span class="name">商品信息</span>
         </div>
-        <!--<img  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAcCAMAAABf788oAAAAbFBMVEUAAAAzMzMzMzM2NjYzMzM1NTU0NDRAQEAzMzM0NDRAQEAzMzM0NDQzMzM0NDQ0NDQ0NDQzMzMzMzMzMzM0NDQ1NTU2NjY5OTk0NDQ0NDQzMzM0NDQzMzM0NDQ1NTU0NDQzMzM0NDQ3NzczMzMku2ijAAAAI3RSTlMA+/Yi4Do2CnhIBO/o176uopeGb2VALhsT8c/LtI2DXVVTM3zB6zwAAACGSURBVBjTfdBJEsIwDETRJHZMRkgIGZiHf/874mVbRaFdv42kzn6MCybnjAkE4JjIAFQKzQE4qez2wCuRK+S1ytZDUaqsHtpFxXXQOZWlBb+qlEWUTaXO4ZIs78Gb83R1c4PzRx8ypw0xz5JH88w95rfkB/CUXJmCJmDSP22lwZaezSH7N19vZgteSBxyaAAAAABJRU5ErkJggg==" class="icon-arrowright" />-->
+        <!--<img  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAcCAMAAABf788oAAAAbFBMVEUAAAAzMzMzMzM2NjYzMzM1NTU0NDRAQEAzMzM0NDRAQEAzMzM0NDQzMzM0NDQ0NDQ0NDQzMzMzMzMzMzM0NDQ1NTU2NjY5OTk0NDQ0NDQzMzM0NDQzMzM0NDQ1NTU0NDQzMzM0NDQ3NzczMzMku2ijAAAAI3RSTlMA+/Yi4Do2CnhIBO/o176uopeGb2VALhsT8c/LtI2DXVVTM3zB6zwAAACGSURBVBjTfdBJEsIwDETRJHZMRkgIGZiHf/874mVbRaFdv42kzn6MCybnjAkE4JjIAFQKzQE4qez2wCuRK+S1ytZDUaqsHtpFxXXQOZWlBb+qlEWUTaXO4ZIs78Gb83R1c4PzRx8ypw0xz5JH88w95rfkB/CUXJmCJmDSP22lwZaezSH7N19vZgteSBxyaAAAAABJRU5ErkJggg===" class="icon-arrowright" />-->
       </div>
       <div class="product-list listitem">
         <ul class="cart-item" v-for="(orderDetail, index) in orderDetailList" :key="index">
@@ -88,102 +88,93 @@
 </template>
 
 <script>
-const config = {
-  sellUrl: 'http://192.168.123.182:3000',
-  openidUrl: 'http://shaoping.natapp1.cc/wechat/authorize',
-  wechatPayUrl: 'http://shaoping.natapp1.cc/pay/create',
-  goodsApi: 'http://127.0.0.1:8080/consumer/product/list',
-}
+import api from '@/api/api.js'
+
 export default {
-  data() {
+  data () {
     return {
       order: {},
       orderDetailList: [],
-      cancelOrderName: "取消订单"
-    };
+      cancelOrderName: '取消订单'
+    }
   },
-  created() {
+  created () {
     this.$http
-      .get("/api/consumer/order/detail", {
+      .get(api.getOrderDetail, {
         params: {
           orderId: this.$route.params.orderId,
           openid: this.$cookies.get('openid')
         }
       })
-      .then(function(response) {
-        this.order = response.body.data;
-        this.orderDetailList = this.order.orderDetailList;
-      });
+      .then(function (response) {
+        this.order = response.body.data
+        this.orderDetailList = this.order.orderDetailList
+      })
   },
   filters: {
-    payName: function(value) {
-      if (value == 0) {
-        return "货到付款";
+    payName: function (value) {
+      if (value === 0) {
+        return '货到付款'
       } else {
-        return "微信支付";
+        return '微信支付'
       }
     },
-    time: function(value) {
-      var date = new Date(value * 1000);
+    time: function (value) {
+      var date = new Date(value * 1000)
       return (
         date.getFullYear() +
-        "-" +
+        '-' +
         (date.getMonth() + 1) +
-        "-" +
+        '-' +
         date.getDate() +
-        " " +
+        ' ' +
         date.getHours() +
-        ":" +
+        ':' +
         date.getMinutes()
-      );
+      )
     },
-    /**
-     * 待接单: orderStatus = 0
-     * 订单已完结: orderStatus = 1
-     * 订单已取消: orderStatus = 2
-     * @param value
-     */
-    orderStatusName: function(value) {
-      if (value == 0) {
-        return "待接单";
-      } else if (value == 1) {
-        return "订单已完结";
-      } else if (value == 2) {
-        return "订单已取消";
+
+    orderStatusName: function (value) {
+      if (value === 0) {
+        return '待接单'
+      } else if (value === 1) {
+        return '订单已完结'
+      } else if (value === 2) {
+        return '订单已取消'
       } else {
-        return "";
+        return ''
       }
     }
   },
   methods: {
-    cancelOrder: function(orderId) {
-      this.cancelOrderName = "取消中...";
+    cancelOrder: function (orderId) {
+      this.cancelOrderName = '取消中...'
       this.$http
-        .post("/api/consumer/order/cancel", {
+        .post(api.cancelOrder, {
           orderId: orderId,
           openid: this.$cookies.get('openid')
         })
-        .then(function(response) {
-          response = response.body;
-          if (response.code == 0) {
-            location.reload();
+        .then(function (response) {
+          response = response.body
+          if (response.code === 0) {
+            location.reload()
           } else {
-            alert("取消订单失败:" + response.msg);
+            alert('取消订单失败:' + response.msg)
           }
-        });
+        })
     },
-    pay: function(orderId) {
+    pay: function (orderId) {
       location.href =
-        config.wechatPayUrl +
-        "?openid=" +
+        api.wechatPayUrl +
+        '?openid=' +
         this.$cookies.get('openid') +
-        "&orderId=" +
+        '&orderId=' +
         orderId +
-        "&returnUrl=" +
-        encodeURIComponent(config.sellUrl + "/#/order/" + orderId);
+        '&returnUrl=' +
+        encodeURIComponent(api.sellUrl + '/#/order/' + orderId)
     }
   }
-};
+}
 </script>
 
 <style lang="stylus">

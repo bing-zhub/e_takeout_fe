@@ -35,77 +35,71 @@
   </div>
 </template>
 <script >
-
-const config = {
-  sellUrl: 'http://192.168.123.182:3000',
-  openidUrl: 'http://shaoping.natapp1.cc/wechat/authorize',
-  wechatPayUrl: 'http://shaoping.natapp1.cc/pay/create',
-  goodsApi: 'http://127.0.0.1:8080/consumer/product/list',
-}
+import api from '@/api/api.js'
 
 export default {
-  data() {
+  data () {
     return {
       selectedGoods: [],
       seller: {},
-      name: "Bing",
-      phone: "17376501924",
-      address: "zucc"
-    };
+      name: 'Bing',
+      phone: '17376501924',
+      address: 'zucc'
+    }
   },
   computed: {
-    allPay() {
+    allPay () {
       return this.selectedGoods.reduce((a, b) => {
-        return a + b.count * b.price;
-      }, 0);
+        return a + b.count * b.price
+      }, 0)
     }
   },
   watch: {
-    $route: "fetchData"
+    $route: 'fetchData'
   },
-  created() {
+  created () {
     this.selectedGoods = this.$store.state.selected
     this.seller = this.$store.state.seller
   },
   methods: {
-    pay() {
+    pay () {
       const goods = this.selectedGoods.map(good => {
-        return { productId: good.id, productQuantity: good.count };
-      });
-      const ERR_OK = 0;
+        return { productId: good.id, productQuantity: good.count }
+      })
+      const ERR_OK = 0
       const body = {
-          'sellerId':0,
-          'openId': this.$cookies.get('openid'),
-          'phone': this.phone,
-          'name': this.name,
-          'address': this.address,
-          'items': goods
-        }
+        'sellerId': 0,
+        'openId': this.$cookies.get('openid'),
+        'phone': this.phone,
+        'name': this.name,
+        'address': this.address,
+        'items': goods
+      }
       this.$http
-        .post('/api/consumer/order/create', JSON.stringify(body))
+        .post(api.createOrder, JSON.stringify(body))
         .then(respones => {
-          respones = respones.body;
-          if (respones.code == ERR_OK) {
+          respones = respones.body
+          if (respones.code === ERR_OK) {
             location.href =
-              config.wechatPayUrl +
+              api.wechatPayUrl +
               '?openid=' +
               this.$cookies.get('openid') +
               '&orderId=' +
               respones.data.orderId +
               '&returnUrl=' +
               encodeURIComponent(
-                config.sellUrl + '/#/order/' + respones.data.orderId
-              );
+                api.sellUrl + '/#/order/' + respones.data.orderId
+              )
           } else {
-            alert(respones.msg);
+            alert(respones.msg)
           }
-        });
+        })
 
-      window.selectedGoods = '[]';
+      window.selectedGoods = '[]'
       // 支付成功清空localstorage selectedGoods
     }
   }
-};
+}
 </script>
 
 <style lang="stylus" >

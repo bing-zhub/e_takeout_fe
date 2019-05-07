@@ -48,13 +48,7 @@ import BScroll from 'better-scroll'
 import ShopCart from '@/components/cart/cart.vue'
 import Controller from '@/components/controller/controller.vue'
 import Product from '@/components/product/product.vue'
-
-const config = {
-  sellUrl: 'http://192.168.123.182:3000',
-  openidUrl: 'http://shaoping.natapp1.cc/wechat/authorize',
-  wechatPayUrl: 'http://shaoping.natapp1.cc/pay/create',
-  goodsApi: 'http://127.0.0.1:8080/consumer/product/list',
-}
+import api from '@/api/api.js'
 
 export default {
   data () {
@@ -79,10 +73,10 @@ export default {
     // 获取openid
     if (this.$cookies.get('openid') === null) {
       // cookie中不存在openid
-      let href = config.openidUrl + '?returnUrl=' + encodeURIComponent(config.sellUrl + '/#/goods')
+      let href = api.openidUrl + '?returnUrl=' + encodeURIComponent(api.sellUrl + '/#/goods')
       location.href = href
     }
-    this.$http.get('/api/consumer/product/list').then((response) => {
+    this.$http.get(api.getProducts).then((response) => {
       if (response.ok) {
         this.goods = response.body.data
         // 确保DOM已经渲染完毕
@@ -164,10 +158,10 @@ export default {
       return foods
     }
   },
-  watch:{
+  watch: {
     selectedFoods (val) {
       this.$store.commit('updateSelectedFoods', val)
-    } 
+    }
   },
   components: {
     ShopCart,

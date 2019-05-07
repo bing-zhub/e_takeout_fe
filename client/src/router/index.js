@@ -31,7 +31,7 @@ export default new Router({
       path: '/sellers',
       name: 'sellers',
       component: Sellers
-    },{
+    }, {
       path: '/check',
       name: 'check',
       component: Check
@@ -39,8 +39,8 @@ export default new Router({
       path: '/order',
       component: OrderList
     }, {
-        path: '/order/:orderId',
-        component: OrderDetail
+      path: '/order/:orderId',
+      component: OrderDetail
     }
   ]
 })

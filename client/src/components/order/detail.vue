@@ -10,11 +10,11 @@
       <h1 class="statustext">{{order.orderStatus | orderStatusName}}</h1>
       <div class="buttons">
         <button
-          v-if="order.orderStatus == 0 && order.payStatus == 0"
+          v-if="order.orderStatus === 0 && order.payStatus === 0"
           @click="pay(order.orderId)"
         >去支付</button>
         <button
-          v-if="order.orderStatus == 0"
+          v-if="order.orderStatus === 0"
           @click="cancelOrder(order.orderId)"
         >{{cancelOrderName}}</button>
       </div>
@@ -83,101 +83,91 @@
 </template>
 
 <script>
-const config = {
-  sellUrl: "http://192.168.123.182:3000",
-  openidUrl: "http://shaoping.natapp1.cc/wechat/authorize",
-  wechatPayUrl: "http://shaoping.natapp1.cc/pay/create",
-  goodsApi: "http://127.0.0.1:8080/consumer/product/list"
-};
+import api from '@/api/api.js'
+
 export default {
-  data() {
+  data () {
     return {
       order: {},
       orderDetailList: [],
-      cancelOrderName: "取消订单"
-    };
+      cancelOrderName: '取消订单'
+    }
   },
-  created() {
+  created () {
     const body = {
       'orderId': this.$route.params.orderId,
       'openId': 'oKLGx51nBAgA814f3-uZXksVTKJQ'
     }
     this.$http
-      .post("/api/consumer/order/detail", JSON.stringify(body))
-      .then(function(response) {
-        this.order = response.body.data;
-        this.orderDetailList = this.order.orderDetails;
-      });
+      .post(api.getOrderDetail, JSON.stringify(body))
+      .then(function (response) {
+        this.order = response.body.data
+        this.orderDetailList = this.order.orderDetails
+      })
   },
   filters: {
-    payName: function(value) {
-      if (value == 0) {
-        return "货到付款";
+    payName: function (value) {
+      if (value === 0) {
+        return '货到付款'
       } else {
-        return "微信支付";
+        return '微信支付'
       }
     },
-    time: function(value) {
-      var date = new Date(value);
+    time: function (value) {
+      var date = new Date(value)
       return (
         date.getFullYear() +
-        "-" +
+        '-' +
         (date.getMonth() + 1) +
-        "-" +
+        '-' +
         date.getDate() +
-        " " +
+        ' ' +
         date.getHours() +
-        ":" +
+        ':' +
         date.getMinutes()
-      );
+      )
     },
-    /**
-     * 待接单: orderStatus = 0
-     * 订单已完结: orderStatus = 1
-     * 订单已取消: orderStatus = 2
-     * @param value
-     */
-    orderStatusName: function(value) {
-      if (value == 0) {
-        return "待接单";
-      } else if (value == 1) {
-        return "订单已完结";
-      } else if (value == 2) {
-        return "订单已取消";
+    orderStatusName: function (value) {
+      if (value === 0) {
+        return '待接单'
+      } else if (value === 1) {
+        return '订单已完结'
+      } else if (value === 2) {
+        return '订单已取消'
       } else {
-        return "";
+        return ''
       }
     }
   },
   methods: {
-    cancelOrder: function(orderId) {
-      this.cancelOrderName = "取消中...";
+    cancelOrder: function (orderId) {
+      this.cancelOrderName = '取消中...'
       this.$http
-        .post("/api/consumer/order/cancel", {
+        .post(api.cancelOrder, {
           orderId: orderId,
           openid: this.$cookies.get('openid')
         })
-        .then(function(response) {
-          response = response.body;
-          if (response.code == 0) {
-            location.reload();
+        .then(function (response) {
+          response = response.body
+          if (response.code === 0) {
+            location.reload()
           } else {
-            alert("取消订单失败:" + response.msg);
+            alert('取消订单失败:' + response.msg)
           }
-        });
+        })
     },
-    pay: function(orderId) {
+    pay: function (orderId) {
       location.href =
-        config.wechatPayUrl +
-        "?openid=" +
+        api.wechatPayUrl +
+        '?openid=' +
         this.$cookies.get('openid') +
-        "&orderId=" +
+        '&orderId=' +
         orderId +
-        "&returnUrl=" +
-        encodeURIComponent(config.sellUrl + "/#/order/" + orderId);
+        '&returnUrl=' +
+        encodeURIComponent(api.sellUrl + '/#/order/' + orderId)
     }
   }
-};
+}
 </script>
 
 <style lang="stylus">

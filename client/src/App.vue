@@ -19,6 +19,7 @@
 
 <script>
 import header from '@/components/header/header.vue'
+import api from '@/api/api.js'
 export default {
   data () {
     return {
@@ -31,7 +32,7 @@ export default {
   },
   created () {
     // 创建时 获取api
-    this.$http.get('/api/seller').then((response) => {
+    this.$http.get(api.getSeller).then((response) => {
       if (response.status === 200) {
         this.seller = response.data
         this.$store.commit('updateSeller', this.seller)

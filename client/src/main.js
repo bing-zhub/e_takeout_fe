@@ -27,7 +27,12 @@ const mutations = {
   }
 }
 
-const store = new Vuex.Store({ state, mutations})
+const store = new Vuex.Store(
+  {
+    state,
+    mutations
+  }
+)
 
 /* eslint-disable no-new */
 new Vue({
