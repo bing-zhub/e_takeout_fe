@@ -12,6 +12,25 @@
         style="width: 100%"
         :row-class-name="tableRowClassName"
       >
+        <el-table-column type="index"/>
+        <el-table-column type="expand">
+          <template  slot-scope="props">
+            <el-row>
+              <el-col v-for="(detail, index) in props.row.orderDetails" :key="index" :span="4" :offset="index > 0 ? 2 : 0">
+                <el-card :body-style="{ padding: '0px' }">
+                  <img :src="detail.productIcon" class="image">
+                  <div style="padding: 14px;">
+                    <span style="font-size:17px;">{{ detail.productName }}</span>
+                    <div class="bottom clearfix">
+                      <span >{{ detail.productPrice }}元</span>
+                      <span class="quantity">{{ detail.productQuantity }}份</span>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </template>
+        </el-table-column>
         <el-table-column prop="orderAmount" label="订单金额(元)" sortable/>
         <el-table-column prop="consumerName" label="客户名称"/>
         <el-table-column prop="consumerPhone" label="电话" />
@@ -19,6 +38,7 @@
         <el-table-column
           prop="payStatus"
           label="支付状态"
+          :formatter="orderStatusFormatter"
           :filters="payTags"
           :filter-method="filterPayTag"
           filter-placement="bottom-end"
@@ -26,7 +46,7 @@
         <el-table-column
           prop="orderStatus"
           label="订单状态"
-          width="100"
+          :formatter="payStatusFormatter"
           :filters="orderTags"
           :filter-method="filterOrderTag"
           filter-placement="bottom-end"
@@ -126,6 +146,12 @@ export default {
     this.fetchData();
   },
   methods: {
+    payStatusFormatter(row, col) {
+      return this.payTags[row.payStatus].text;
+    },
+    orderStatusFormatter(row, col) {
+      return this.orderTags[row.orderStatus].text;
+    },
     tableRowClassName({row, rowIndex}){
       if(row.orderStatus===1){
         return 'success-row'
@@ -217,5 +243,34 @@ export default {
 
   .el-table .success-row {
     background: #f0f9eb;
+  }
+
+  .table-expand {
+    margin-left: 30px;
+    font-size: 0;
+  }
+  .quantity {
+    font-size: 13px;
+    color: #999;
+  }
+  
+  .bottom {
+    margin-top: 13px;
+    line-height: 12px;
+  }
+
+  .image {
+    width: 100%;
+    display: block;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  
+  .clearfix:after {
+    clear: both
   }
 </style>
