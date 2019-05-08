@@ -12,17 +12,17 @@
         style="width: 100%"
         :row-class-name="tableRowClassName"
       >
-        <el-table-column type="index"/>
+      <el-table-column type="index"/>
         <el-table-column type="expand">
           <template  slot-scope="props">
-            <el-row>
+            <el-row style="margin-left:20px">
               <el-col v-for="(detail, index) in props.row.orderDetails" :key="index" :span="4" :offset="index > 0 ? 2 : 0">
                 <el-card :body-style="{ padding: '0px' }">
                   <img :src="detail.productIcon" class="image">
                   <div style="padding: 14px;">
-                    <span style="font-size:17px;">{{ detail.productName }}</span>
+                    <span style="font-size:17px;color:#606266">{{ detail.productName }}</span>
                     <div class="bottom clearfix">
-                      <span >{{ detail.productPrice }}元</span>
+                      <span style="color:#606266">{{ detail.productPrice }}元</span>
                       <span class="quantity">{{ detail.productQuantity }}份</span>
                     </div>
                   </div>
@@ -102,6 +102,10 @@
 import Pagination from "@/components/Pagination";
 import { getProducts, updateProduct, deleteProduct } from "@/api/product"
 import { getOrders } from "@/api/order"
+import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
+import Vue from 'vue'
+
+Vue.component(CollapseTransition.name, CollapseTransition)
 
 export default {
   components: { Pagination },
@@ -246,12 +250,12 @@ export default {
   }
 
   .table-expand {
-    margin-left: 30px;
     font-size: 0;
   }
   .quantity {
     font-size: 13px;
     color: #999;
+    float: right;
   }
   
   .bottom {
