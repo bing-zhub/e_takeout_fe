@@ -1,0 +1,221 @@
+<template>
+  <el-container>
+    <el-header style="text-align: center; font-size: 24px">
+      <h1 style="font-weight:400; color:#589ef8">订单管理</h1>
+    </el-header>
+    <el-main style="margin-top: 24px">
+      <el-table
+        v-loading="listLoading"
+        fit
+        highlight-current-row
+        :data="tableData"
+        style="width: 100%"
+        :row-class-name="tableRowClassName"
+      >
+        <el-table-column prop="orderAmount" label="订单金额(元)" sortable/>
+        <el-table-column prop="consumerName" label="客户名称"/>
+        <el-table-column prop="consumerPhone" label="电话" />
+        <el-table-column prop="consumerAddress" label="地址" />
+        <el-table-column
+          prop="payStatus"
+          label="支付状态"
+          :filters="payTags"
+          :filter-method="filterPayTag"
+          filter-placement="bottom-end"
+          />
+        <el-table-column
+          prop="orderStatus"
+          label="订单状态"
+          width="100"
+          :filters="orderTags"
+          :filter-method="filterOrderTag"
+          filter-placement="bottom-end"
+        />
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)">
+              删除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <pagination
+        v-show="total>0"
+        :total="total"
+        :page.sync="page"
+        :limit.sync="recordPerPage"
+        @pagination="filterPage"
+      />
+    </el-main>
+    <el-dialog :title="title" :visible.sync="dialogVisible" top width="75%" :before-close="handleClose">
+      <el-form>
+        <el-form-item label="类型" prop="type">
+          <el-radio-group v-model="form.type">
+            <el-radio v-for="(item, index) in orderTags" :key="index" :label="item.value">{{ item.text }}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="现价" prop="price">
+          <el-input-number v-model="form.price" controls-position="right"/>
+        </el-form-item>
+        <el-form-item label="原价">
+          <el-input-number v-model="form.oldPrice" controls-position="right"/>
+        </el-form-item>
+
+        <el-form-item label="描述">
+          <el-input v-model="form.description"/>
+        </el-form-item>
+        <el-form-item label="信息">
+          <el-input v-model="form.info"/>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" style="width: 100%" @click="onSubmit(form)">修改</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+  </el-container>
+</template>
+
+<script>
+import Pagination from "@/components/Pagination";
+import { getProducts, updateProduct, deleteProduct } from "@/api/product"
+import { getOrders } from "@/api/order"
+
+export default {
+  components: { Pagination },
+  data() {
+    return {
+      totalData: [],
+      tableData: [],
+      listLoading: false,
+      payTags: [
+        {value: 0, text:'未支付'},
+        {value: 1, text:'支付成功'}
+      ],
+      orderTags: [
+        {value: 0, text: '新订单'},
+        {value: 1, text: '完结'},
+        {value: 2, text: '已取消'}
+      ],
+      form: {
+        id: "",
+        name: "",
+        price: "",
+        oldPrice: "",
+        description: "",
+        info: "",
+        icon: "",
+        image: "",
+        type: ""
+      },
+      title: "修改商品",
+      dialogVisible: false,
+      total: 0,
+      page: 1,
+      recordPerPage: 10
+    };
+  },
+  watch: {
+    total: function() {
+      this.filterPage();
+    }
+  },
+  created() {
+    this.fetchData();
+  },
+  methods: {
+    tableRowClassName({row, rowIndex}){
+      if(row.orderStatus===1){
+        return 'success-row'
+      }else if (row.orderStatus ===2){
+        return 'warning-row'
+      }
+    },
+    filterPayTag(value, row) {
+      return value === row.payStatus;
+    },
+    filterOrderTag(value, row) {
+      return value === row.orderStatus;
+    },
+    filterPage() {
+      const start = (this.page - 1) * this.recordPerPage;
+      let end = this.page * this.recordPerPage - 1;
+      const t = this.totalData.length - start;
+      end = Math.min(end, start + t - 1) + 1;
+      this.tableData = this.totalData.slice(start, end);
+    },
+    fetchData() {
+      this.listLoading = true;
+      this.total = 0;
+      getOrders().then(response => {
+        this.totalData = response.data;
+        this.total += response.data.length;
+      });
+      this.listLoading = false;
+    },
+    handleEdit(index, row) {
+      this.dialogVisible = true;
+      this.form = {
+        id: row.food.id,
+        name: row.food.name,
+        price: row.food.price,
+        oldPrice: row.food.oldPrice,
+        description: row.food.description,
+        info: row.food.info,
+        icon: row.food.icon,
+        image: row.food.image,
+        type: row.type.value
+      };
+    },
+    handleClose(done) {
+      this.$confirm("取消修改？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    },
+    onSubmit(form) {
+      updateProduct(this.form)
+      this.$message({
+        message: "修改成功",
+        type: "success"
+      });
+      this.dialogVisible = false;
+    },
+    handleDelete(index, row) {
+      this.$confirm(`此操作将永久删除${row.food.name}, 是否继续?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          deleteProduct(row.food.id).then(res => {
+            if (res.code === 0) {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    }
+  }
+};
+</script>
+<style>
+  .el-table .warning-row {
+    background: oldlace;
+  }
+
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
+</style>

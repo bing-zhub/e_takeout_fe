@@ -69,10 +69,10 @@ export const constantRoutes = [
         component: () => import('@/views/manage/addProduct'),
         meta: { title: '添加商品', icon: 'form' }
       }, {
-        path: 'qiniu',
-        name: '上传',
-        component: () => import('@/views/manage/qiniu'),
-        meta: { title: '上传', icon: 'form' }
+        path: 'order/list',
+        name: '订单',
+        component: () => import('@/views/manage/viewOrder'),
+        meta: { title: '订单', icon: 'form' }
       }, {
         path: 'product/list',
         name: '查看商品',
