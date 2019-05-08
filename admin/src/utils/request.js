@@ -26,7 +26,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-
+    console.log(res)
     if (res.code !== 0) {
       Message({
         message: res.message || '不匹配的状态返回码',
@@ -51,9 +51,8 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('err' + error)
     Message({
-      message: error.message,
+      message: error.response.data.message || error.response.data.exception || error.message,
       type: 'error',
       duration: 5 * 1000
     })
