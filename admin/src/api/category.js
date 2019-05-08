@@ -20,7 +20,7 @@ export function deleteCategory(data) {
 
 export function addCategory(data) {
   return request({
-    url: '/category/add',
+    url: '/category/create',
     method: 'post',
     data
   })

@@ -13,13 +13,13 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="ID" width="95" sortable prop="category_id"/>
-      <el-table-column label="名称" prop="category_name"/>
-      <el-table-column label="标识" width="110" align="center" prop="category_type"/>
-      <el-table-column align="center" prop="created_at" label="创建时间" width="200" sortable>
+      <el-table-column align="center" label="ID" width="95" sortable prop="categoryId"/>
+      <el-table-column label="名称" prop="categoryName"/>
+      <el-table-column label="标识" width="110" align="center" prop="categoryType"/>
+      <el-table-column align="center" prop="createTime" label="创建时间" width="200" sortable>
         <template slot-scope="scope">
           <i class="el-icon-time"/>
-          <span>{{ scope.row.create_time | formatter }}</span>
+          <span>{{ scope.row.createTime | formatter }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作">
@@ -38,10 +38,10 @@
     >
       <el-form ref="form" :model="form" label-width="120px">
         <el-form-item label="类目名称">
-          <el-input v-model="form.name"/>
+          <el-input v-model="form.categoryName"/>
         </el-form-item>
         <el-form-item label="类目标识">
-          <el-input v-model="form.region"/>
+          <el-input v-model="form.categoryType"/>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">{{ btnText }}</el-button>
@@ -54,8 +54,7 @@
       top
       :visible.sync="importDialogVisible"
       width="50%"
-      :before-close="handleClose"
-    >
+      :before-close="handleClose">
       <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload"/>
       <el-button
         v-if="tableData.length!==0"
@@ -70,7 +69,6 @@
 </template>
 
 <script>
-import request from "@/utils/request";
 import UploadExcelComponent from "@/components/UploadExcel/index.vue";
 import {
   deleteCategory,
@@ -109,9 +107,9 @@ export default {
       listLoading: true,
       dialogVisible: false,
       form: {
-        id: "",
-        name: "",
-        region: ""
+        categoryId: "",
+        categoryName: "",
+        categoryType: ""
       },
       title: "添加类目",
       btnText: "添加",
@@ -136,7 +134,7 @@ export default {
     fetchData() {
       this.listLoading = true;
       getCategories(0).then(response => {
-        this.list = response.data.items;
+        this.list = response.data;
         this.listLoading = false;
       });
     },
@@ -157,10 +155,10 @@ export default {
       const ret = [];
       this.list.forEach(item => {
         const one = [
-          item.category_id,
-          item.category_name,
-          item.category_type,
-          this.formatDate(item.create_time)
+          item.categoryId,
+          item.categoryName,
+          item.categoryType,
+          this.formatDate(item.createTime)
         ];
         ret.push(one);
       });
@@ -174,26 +172,29 @@ export default {
         .catch(_ => {});
     },
     onSubmit() {
-      if (this.form.id === "") {
-        addCategoory({
-          name: this.form.name,
-          region: this.form.region
+      if (this.form.categoryId === "") {
+        addCategory({
+          categoryName: this.form.categoryName,
+          categoryType: this.form.categoryType
         }).then(() => {
-          this.$message("添加成功!");
+          this.fetchData();
+          this.$message({type:'success', message: "添加成功!"});
         });
       } else {
         updateCategory(this.form).then(() => {
-          this.$message("修改成功!");
+          this.fetchData();
+          this.$message({type: 'success', message: "修改成功!"});
         });
       }
 
+      this.fetchData();
       this.clearData();
       this.dialogVisible = false;
     },
     clearData() {
       this.form = {
-        name: "",
-        region: ""
+        categoryName: "",
+        categoryType: ""
       };
     },
     onCancel() {
@@ -202,25 +203,26 @@ export default {
     handleEdit(index, row) {
       this.btnText = "修改";
       this.title = "修改类目";
-      this.form.id = row.category_id;
-      this.form.name = row.category_name;
-      this.form.region = row.category_type;
+      this.form.categoryId = row.categoryId;
+      this.form.categoryName = row.categoryName;
+      this.form.categoryType = row.categoryType;
       this.dialogVisible = true;
     },
     handleAdd() {
       this.btnText = "添加";
       this.title = "添加类目";
-      this.form.id = "";
-      this.form.name = "";
-      this.form.region = "";
+      this.form.categoryId = "";
+      this.form.categoryName = "";
+      this.form.categoryType = "";
       this.dialogVisible = true;
     },
     handleDelete(index, row) {
-      this.form.id = row.category_id;
-      this.form.name = row.category_name;
-      this.form.region = row.category_type;
-      deleteCategory(this.form).then(() => {
-        this.$message("删除成功!");
+      deleteCategory(row).then(() => {
+        this.$message({
+          message : "删除成功!",
+          type : "success" 
+        });
+        this.fetchData();
       });
     },
     beforeUpload(file) {
