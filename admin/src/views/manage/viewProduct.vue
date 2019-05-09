@@ -14,7 +14,7 @@
         <el-table-column prop="food.sellCount" label="总销量" sortable/>
         <el-table-column prop="food.image" label="图片" width="180">
           <template slot-scope="scope">
-            <img :src="scope.row.food.image" :width="120" :height="120">
+            <img :src="scope.row.food.icon" :width="120" :height="120">
           </template>
         </el-table-column>
         <el-table-column prop="food.name" label="商品名"/>
@@ -130,7 +130,6 @@ export default {
   },
   methods: {
     filterTag(value, row) {
-      console.log(this.tableData)
       return value === row.type.value;
     },
     filterPage() {
@@ -144,6 +143,7 @@ export default {
       this.listLoading = true;
       this.total = 0;
       getProducts().then(response => {
+        this.totalData = []
         const data = response.data;
         data.forEach(category => {
           const type = {
@@ -161,6 +161,7 @@ export default {
           this.total += category.foods.length;
         });
       });
+      this.filterPage();
       this.listLoading = false;
     },
     handleEdit(index, row) {
@@ -199,12 +200,13 @@ export default {
         type: "warning"
       })
         .then(() => {
-          deleteProduct(row.food.id).then(res => {
+          deleteProduct({productId:row.food.id}).then(res => {
             if (res.code === 0) {
               this.$message({
                 type: "success",
                 message: "删除成功!"
               });
+              this.fetchData()
             }
           });
         })

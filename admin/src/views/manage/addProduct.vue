@@ -22,8 +22,8 @@
               <el-radio
                 v-for="(item, index) in categories"
                 :key="index"
-                :label="item.category_id"
-              >{{ item.category_name }}</el-radio>
+                :label="item.categoryType"
+              >{{ item.categoryName }}</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item
@@ -41,6 +41,14 @@
             prop="oldPrice"
           >
             <el-input-number v-model="form.oldPrice" controls-position="right"/>
+          </el-form-item>
+          <el-form-item
+            label="库存"
+            :rules="[{ required: true, message: '请输入商品库存', trigger: 'change' },
+                     { validator: checkStock, trigger: 'change' }]"
+            prop="stock"
+          >
+            <el-input-number v-model="form.stock" controls-position="right"/>
           </el-form-item>
           <el-form-item label="描述" prop="desciption">
             <el-input v-model="form.description"/>
@@ -78,25 +86,34 @@ export default {
         callback();
       }
     };
+    var checkStock = (rule, value, callback) => {
+      if (value < 0) {
+        callback(new Error("库存应为正整数"));
+      } else {
+        callback();
+      }
+    };
     return {
       form: {
         name: "",
-        price: null,
+        price: "",
         oldPrice: "",
-        description: "",
-        info: "",
-        icon: "",
-        image: "",
-        type: ""
+        description:  "这个卖家很懒, 还没编辑~" ,
+        info:  "这个卖家很懒, 还没编辑~" ,
+        icon: "http://pr0o6uaio.bkt.clouddn.com/FrWYf-tRZvlKCZJB8SXj4SoMNH94",
+        image: "http://pr0o6uaio.bkt.clouddn.com/FrWYf-tRZvlKCZJB8SXj4SoMNH94",
+        type: "",
+        stock: ""
       },
       checkPrice,
+      checkStock,
       categories: []
     };
   },
   created() {
     // sellerId
     getCategories(0).then(res => {
-      this.categories = res.data.items;
+      this.categories = res.data;
     });
   },
   methods: {

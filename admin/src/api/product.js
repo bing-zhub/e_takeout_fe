@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function addProduct(data) {
   return request({
-    url: '/product/add',
+    url: '/seller/product/create',
     method: 'post',
     data
   })
@@ -10,25 +10,23 @@ export function addProduct(data) {
 
 export function getProducts() {
   return request({
-    url: '/product/list',
+    url: '/seller/product/list',
     method: 'get'
   })
 }
 
 export function updateProduct(data) {
   return request({
-    url: '/product/update',
+    url: '/seller/product/update',
     method: 'post',
     data
   })
 }
 
-export function deleteProduct(id) {
+export function deleteProduct(data) {
   return request({
-    url: '/product/delete',
+    url: '/seller/product/delete',
     method: 'post',
-    data: {
-      id
-    }
+    data
   })
 }
