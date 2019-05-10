@@ -12,6 +12,7 @@ Vue.config.productionTip = false
 Vue.use(VueResource)
 Vue.use(VueCookies)
 Vue.use(Vuex)
+Vue.http.options.emulateJSON = true
 
 const state = {
   selected: [],

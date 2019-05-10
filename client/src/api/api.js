@@ -5,6 +5,7 @@ const URL = {
   getProducts: BASEURL + 'consumer/product/list',
   getOrderDetail: BASEURL + 'consumer/order/detail',
   cancelOrder: BASEURL + 'consumer/order/cancel',
+  getOrderList: BASEURL + 'sell/buyer/order/list',
   wechatPayUrl: 'http://shaoping.natapp1.cc/pay/create',
   sellUrl: 'http://192.168.234.31:3000',
   openidUrl: 'http://shaoping.natapp1.cc/wechat/authorize',

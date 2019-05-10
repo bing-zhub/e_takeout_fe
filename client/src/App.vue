@@ -1,19 +1,21 @@
 <template>
   <div id="app">
     <!-- 通过props实现父子组件通信 -->
-    <v-header :seller="seller"></v-header>
-    <div class="tab">
-      <div class="tab-item">
-        <router-link to="/goods">商品</router-link>
+    <div v-show="showHeader">
+      <v-header :seller="seller"></v-header>
+        <div class="tab">
+          <div class="tab-item">
+            <router-link to="/goods">商品</router-link>
+          </div>
+          <div class="tab-item">
+            <router-link to="/ratings">评价</router-link>
+          </div>
+          <div class="tab-item">
+            <router-link to="/sellers">卖家</router-link>
+          </div>
+        </div>
       </div>
-      <div class="tab-item">
-        <router-link to="/ratings">评价</router-link>
-      </div>
-      <div class="tab-item">
-        <router-link to="/sellers">卖家</router-link>
-      </div>
-    </div>
-    <router-view :seller="seller" />
+    <router-view :seller="seller" :showHeader="showHeader" />
   </div>
 </template>
 
@@ -23,7 +25,8 @@ import api from '@/api/api.js'
 export default {
   data () {
     return {
-      seller: {}
+      seller: {},
+      showHeader: true
     }
   },
   components: {
@@ -31,6 +34,12 @@ export default {
     'v-header': header
   },
   created () {
+    const hash = window.location.hash;
+    if (hash.indexOf('payment') > -1 || hash.indexOf('order') > -1) {
+      this.showHeader = false;
+    } else {
+      this.showHeader = true;
+    }
     // 创建时 获取api
     this.$http.get(api.getSeller).then((response) => {
       if (response.status === 200) {
