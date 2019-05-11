@@ -37,65 +37,65 @@
 
 <script type="text/ecmascript-6">
 import api from '@/api/api.js'
-const ERR_OK = 0;
+const ERR_OK = 0
 export default {
   props: {
     seller: {
       type: Object
     }
   },
-  data() {
+  data () {
     return {
       orderList: [],
-      orderStatusName: ""
-    };
+      orderStatusName: ''
+    }
   },
-  created() {
+  created () {
     this.$http
       .get(api.getOrderList, {
-        params: { openid: this.$cookies.get("openid") }
+        params: { openid: this.$cookies.get('openid') }
       })
       .then(response => {
-        response = response.body;
+        response = response.body
         if (response.code === ERR_OK) {
-          this.orderList = response.data;
+          this.orderList = response.data
         }
-      });
+      })
   },
   methods: {
-    orderDetail: function(item) {
-      location.href = "/#/order/" + item.orderId;
+    orderDetail: function (item) {
+      location.href = '/#/order/' + item.orderId
     }
   },
   components: {},
   filters: {
-    time: function(value) {
-      var date = new Date(value * 1000);
+    time: function (value) {
+      var date = new Date(value * 1000)
       return (
         date.getFullYear() +
-        "-" +
+        '-' +
         (date.getMonth() + 1) +
-        "-" +
+        '-' +
         date.getDate() +
-        " " +
+        ' ' +
         date.getHours() +
-        ":" +
+        ':' +
         date.getMinutes()
-      );
+      )
     },
-    formatOrderStatus: function(orderStatus, payStatus) {
+    formatOrderStatus: function (orderStatus, payStatus) {
       if (orderStatus == 1) {
-        return "已完成";
+        return '已完成'
       } else if (orderStatus == 2) {
-        return "已取消";
+        return '已取消'
       } else if (payStatus == 0) {
-        return "未支付";
+        return '未支付'
       } else {
-        return "已支付";
+        return '已支付'
       }
     }
   }
-};
+}
 
 </script>
 

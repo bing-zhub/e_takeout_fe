@@ -34,11 +34,11 @@ export default {
     'v-header': header
   },
   created () {
-    const hash = window.location.hash;
+    const hash = window.location.hash
     if (hash.indexOf('payment') > -1 || hash.indexOf('order') > -1) {
-      this.showHeader = false;
+      this.showHeader = false
     } else {
-      this.showHeader = true;
+      this.showHeader = true
     }
     // 创建时 获取api
     this.$http.get(api.getSeller).then((response) => {
