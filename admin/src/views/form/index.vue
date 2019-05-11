@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import request from '@/utils/request'
 import { login } from '@/api/user'
 
 export default {

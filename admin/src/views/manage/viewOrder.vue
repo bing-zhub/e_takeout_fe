@@ -10,10 +10,11 @@
         highlight-current-row
         :data="tableData"
         style="width: 100%"
-        :row-class-name="tableRowClassName">
-        <el-table-column type="index"/>
+        :row-class-name="tableRowClassName"
+      >
+        <el-table-column type="index" />
         <el-table-column type="expand">
-          <template  slot-scope="props">
+          <template slot-scope="props">
             <el-row style="margin-left:20px">
               <el-col v-for="(detail, index) in props.row.orderDetails" :key="index" :span="4" :offset="index > 0 ? 2 : 0">
                 <el-card :body-style="{ padding: '0px' }">
@@ -30,23 +31,26 @@
             </el-row>
           </template>
         </el-table-column>
-        <el-table-column prop="orderAmount" label="订单金额(元)" sortable/>
-        <el-table-column prop="consumerName" label="客户名称"/>
+        <el-table-column prop="orderAmount" label="订单金额(元)" sortable />
+        <el-table-column prop="consumerName" label="客户名称" />
         <el-table-column prop="consumerPhone" label="电话" />
         <el-table-column prop="consumerAddress" label="地址" />
-        <el-table-column prop="payStatus"
+        <el-table-column
+          prop="payStatus"
           label="支付状态"
           :formatter="orderStatusFormatter"
           :filters="payTags"
           :filter-method="filterPayTag"
           filter-placement="bottom-end"
-          />
-        <el-table-column prop="orderStatus"
+        />
+        <el-table-column
+          prop="orderStatus"
           label="订单状态"
           :formatter="payStatusFormatter"
           :filters="orderTags"
           :filter-method="filterOrderTag"
-          filter-placement="bottom-end"/>
+          filter-placement="bottom-end"
+        />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleFinish(scope.$index, scope.row)">完结</el-button>
@@ -66,9 +70,8 @@
 </template>
 
 <script>
-import Pagination from "@/components/Pagination";
-import { getProducts, updateProduct, deleteProduct } from "@/api/product"
-import { getOrders, cancelOrder, finishOrder } from "@/api/order"
+import Pagination from '@/components/Pagination'
+import { getOrders, cancelOrder, finishOrder } from '@/api/order'
 
 export default {
   components: { Pagination },
@@ -78,100 +81,100 @@ export default {
       tableData: [],
       listLoading: false,
       payTags: [
-        {value: 0, text:'未支付'},
-        {value: 1, text:'支付成功'}
+        { value: 0, text: '未支付' },
+        { value: 1, text: '支付成功' }
       ],
       orderTags: [
-        {value: 0, text: '新订单'},
-        {value: 1, text: '完结'},
-        {value: 2, text: '已取消'}
+        { value: 0, text: '新订单' },
+        { value: 1, text: '完结' },
+        { value: 2, text: '已取消' }
       ],
       total: 0,
       page: 1,
       recordPerPage: 10
-    };
+    }
   },
   watch: {
     total: function() {
-      this.filterPage();
+      this.filterPage()
     }
   },
   created() {
-    this.fetchData();
+    this.fetchData()
   },
   methods: {
     payStatusFormatter(row, col) {
-      return this.payTags[row.payStatus].text;
+      return this.payTags[row.payStatus].text
     },
     orderStatusFormatter(row, col) {
-      return this.orderTags[row.orderStatus].text;
+      return this.orderTags[row.orderStatus].text
     },
-    tableRowClassName({row, rowIndex}){
-      if(row.orderStatus===1){
+    tableRowClassName({ row, rowIndex }) {
+      if (row.orderStatus === 1) {
         return 'success-row'
-      }else if (row.orderStatus ===2){
+      } else if (row.orderStatus === 2) {
         return 'warning-row'
       }
     },
     filterPayTag(value, row) {
-      return value === row.payStatus;
+      return value === row.payStatus
     },
     filterOrderTag(value, row) {
-      return value === row.orderStatus;
+      return value === row.orderStatus
     },
     filterPage() {
-      const start = (this.page - 1) * this.recordPerPage;
-      let end = this.page * this.recordPerPage - 1;
-      const t = this.totalData.length - start;
-      end = Math.min(end, start + t - 1) + 1;
-      this.tableData = this.totalData.slice(start, end);
+      const start = (this.page - 1) * this.recordPerPage
+      let end = this.page * this.recordPerPage - 1
+      const t = this.totalData.length - start
+      end = Math.min(end, start + t - 1) + 1
+      this.tableData = this.totalData.slice(start, end)
     },
     fetchData() {
-      this.listLoading = true;
-      this.total = 0;
-      getOrders({test:'1'}).then(response => {
-        this.totalData = response.data;
-        this.total += response.data.length;
-      });
-      this.listLoading = false;
+      this.listLoading = true
+      this.total = 0
+      getOrders({ test: '1' }).then(response => {
+        this.totalData = response.data
+        this.total += response.data.length
+      })
+      this.listLoading = false
     },
     handleFinish(index, row) {
-      console.log({orderId: row.orderId})
-      finishOrder({orderId: row.orderId})
-        .then((res)=>{
+      console.log({ orderId: row.orderId })
+      finishOrder({ orderId: row.orderId })
+        .then((res) => {
           this.$message({
-            type: "success",
-            message: "完结成功!"
-          });
+            type: 'success',
+            message: '完结成功!'
+          })
           this.fetchData()
         })
     },
     handleQuit(index, row) {
-      this.$confirm(`次操作将取消用户${row.consumerName}订单,若已付款将原路退回, 是否继续?`, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm(`次操作将取消用户${row.consumerName}订单,若已付款将原路退回, 是否继续?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
-          cancelOrder({orderId:row.orderId}).then(res => {
+          cancelOrder({ orderId: row.orderId }).then(res => {
             if (res.code === 0) {
               this.$message({
-                type: "success",
-                message: "退单成功!"
-              });
+                type: 'success',
+                message: '退单成功!'
+              })
             }
             this.fetchData()
-          });
+          })
         })
         .catch(() => {
           this.$message({
-            type: "info",
-            message: "已取消退单"
-          });
-        });
+            type: 'info',
+            message: '已取消退单'
+          })
+        })
     }
   }
-};
+}
 </script>
 <style>
   .el-table .warning-row {
@@ -190,7 +193,7 @@ export default {
     color: #999;
     float: right;
   }
-  
+
   .bottom {
     margin-top: 13px;
     line-height: 12px;
@@ -206,7 +209,7 @@ export default {
     display: table;
     content: "";
   }
-  
+
   .clearfix:after {
     clear: both
   }
