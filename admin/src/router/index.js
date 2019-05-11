@@ -29,126 +29,54 @@ export const constantRoutes = [
       meta: { title: '仪表盘', icon: 'dashboard' }
     }]
   },
-
   {
-    path: '/example',
+    path: '/category',
     component: Layout,
-    redirect: '/example/table',
-    name: '例子',
-    meta: { title: '例子', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: '表格',
-        component: () => import('@/views/table/index'),
-        meta: { title: '表格', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: '树',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '树', icon: 'tree' }
-      }
-    ]
-  },
-  {
-    path: '/manage',
-    component: Layout,
-    redirect: '/manage/category',
-    name: '管理',
-    meta: { title: '管理', icon: 'form' },
+    redirect: '/category',
+    name: '类目',
+    meta: { title: '类目', icon: 'example' },
     children: [
       {
         path: 'category',
         name: '类目管理',
         component: () => import('@/views/manage/category'),
         meta: { title: '类目管理', icon: 'form' }
-      }, {
-        path: 'product/add',
-        name: '添加商品',
-        component: () => import('@/views/manage/addProduct'),
-        meta: { title: '添加商品', icon: 'form' }
-      }, {
-        path: 'order/list',
-        name: '订单',
-        component: () => import('@/views/manage/viewOrder'),
-        meta: { title: '订单', icon: 'form' }
-      }, {
+      }
+    ]
+  },
+  {
+    path: '/product',
+    component: Layout,
+    redirect: '/product/list',
+    name: '商品',
+    meta: { title: '商品', icon: 'shopping' },
+    children: [
+      {
         path: 'product/list',
         name: '查看商品',
         component: () => import('@/views/manage/viewProduct'),
-        meta: { title: '查看商品', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: '表单',
-        component: () => import('@/views/form/index'),
-        meta: { title: '表单', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: '嵌套',
-    meta: {
-      title: '嵌套',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: '菜单1',
-        meta: { title: '菜单1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: '菜单1-1',
-            meta: { title: '菜单-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: '菜单1-2',
-            meta: { title: '菜单1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: '菜单1-2-1',
-                meta: { title: '菜单1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
+        meta: { title: '查看商品', icon: 'eye' }
       },
       {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
+        path: 'product/add',
+        name: '添加商品',
+        component: () => import('@/views/manage/addProduct'),
+        meta: { title: '添加商品', icon: 'edit' }
+      }
+    ]
+  },
+  {
+    path: '/order',
+    component: Layout,
+    redirect: '/order/view',
+    name: '订单',
+    meta: { title: '订单', icon: 'documentation' },
+    children: [
+      {
+        path: 'order/list',
+        name: '订单',
+        component: () => import('@/views/manage/viewOrder'),
+        meta: { title: '订单', icon: 'documentation' }
       }
     ]
   },
