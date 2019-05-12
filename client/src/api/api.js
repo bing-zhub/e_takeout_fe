@@ -1,15 +1,20 @@
 const BASEURL = '/api/'
+const frontendURL = 'http://10.67.44.6:3000'
+const natURL = 'http://shaoping.natapp1.cc'
 const URL = {
+  // http
   getSeller: BASEURL + 'seller',
   createOrder: BASEURL + 'consumer/order/create',
   getProducts: BASEURL + 'consumer/product/list',
   getOrderDetail: BASEURL + 'consumer/order/detail',
   cancelOrder: BASEURL + 'consumer/order/cancel',
   getOrderList: BASEURL + 'sell/buyer/order/list',
-  wechatPayUrl: 'http://shaoping.natapp1.cc/pay/create',
-  sellUrl: 'http://192.168.234.31:3000',
-  openidUrl: 'http://shaoping.natapp1.cc/wechat/authorize',
-  goodsApi: 'http://127.0.0.1:8080/consumer/product/list'
+
+  // href
+  wechatPayUrl: natURL + '/pay/create',
+  sellUrl: frontendURL,
+  openidUrl: natURL + '/wechat/authorize'
+  // goodsApi: 'http://10.67.44.6:8080/consumer/product/list'
 }
 
 export default URL

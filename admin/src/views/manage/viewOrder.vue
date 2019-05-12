@@ -132,11 +132,11 @@ export default {
     fetchData() {
       this.listLoading = true
       this.total = 0
-      getOrders({ test: '1' }).then(response => {
+      getOrders({ openId: 'oKLGx51nBAgA814f3-uZXksVTKJQ' , size:100}).then(response => {
         this.totalData = response.data
         this.total += response.data.length
+        this.listLoading = false
       })
-      this.listLoading = false
     },
     handleFinish(index, row) {
       console.log({ orderId: row.orderId })

@@ -194,10 +194,12 @@ export default {
         .catch(_ => {})
     },
     onSubmit(form) {
-      updateProduct(this.form)
-      this.$message({
-        message: '修改成功',
-        type: 'success'
+        updateProduct(this.form).then(res=>{
+          this.$message({
+          message: '修改成功',
+          type: 'success'
+        })
+        this.fetchData()
       })
       this.dialogVisible = false
     },
@@ -208,7 +210,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          deleteProduct({ productId: row.food.id }).then(res => {
+          deleteProduct({ id: row.food.id }).then(res => {
             if (res.code === 0) {
               this.$message({
                 type: 'success',
