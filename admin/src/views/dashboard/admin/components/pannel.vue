@@ -7,7 +7,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            完成订单数
+            订单数
           </div>
           <count-to :start-val="0" :end-val="pannelData[0]" :duration="2600" class="card-panel-num" />
         </div>
@@ -57,16 +57,11 @@
 
 <script>
 import CountTo from 'vue-count-to'
-import {getTotal} from '@/api/statics'
+import { getTotal } from '@/api/statics'
 
 export default {
   components: {
     CountTo
-  },
-  methods: {
-    handleSetLineChartData(type) {
-      this.$emit('handleSetLineChartData', type)
-    }
   },
   data() {
     return {
@@ -79,6 +74,11 @@ export default {
 
       this.pannelData = res.data
     })
+  },
+  methods: {
+    handleSetLineChartData(type) {
+      this.$emit('handleSetLineChartData', type)
+    }
   }
 }
 </script>

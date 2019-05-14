@@ -41,17 +41,12 @@ export default {
       lineChartData: lineChartData.CompleteOrderNum
     }
   },
-  methods: {
-    handleSetLineChartData(type) {
-      this.lineChartData = lineChartData[type]
-    }
-  },
   created() {
     getCompleteOrderNum().then((res) => {
       lineChartData.CompleteOrderNum.actualData = res.data
     })
     getAverageConsumption().then((res) => {
-      lineChartData.AverageConsumption.actualData  = res.data
+      lineChartData.AverageConsumption.actualData = res.data
     })
     getIncome().then((res) => {
       lineChartData.Income.actualData = res.data
@@ -59,6 +54,11 @@ export default {
     getProductCount().then((res) => {
       lineChartData.ProductCount.actualData = res.data
     })
+  },
+  methods: {
+    handleSetLineChartData(type) {
+      this.lineChartData = lineChartData[type]
+    }
   }
 }
 </script>

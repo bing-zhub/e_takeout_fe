@@ -1,5 +1,5 @@
 const BASEURL = '/api/'
-const frontendURL = 'http://10.67.44.6:3000'
+const frontendURL = 'http://192.168.239.216:3000'
 const natURL = 'http://shaoping.natapp1.cc'
 const URL = {
   // http
