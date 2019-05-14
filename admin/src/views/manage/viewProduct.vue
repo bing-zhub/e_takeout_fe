@@ -16,7 +16,7 @@
         <el-table-column prop="food.sellCount" label="总销量" sortable />
         <el-table-column prop="food.image" label="图片" width="180">
           <template slot-scope="scope">
-            <img :src="scope.row.food.icon" :width="120" :height="120">
+            <img :src="scope.row.food.image" :width="120" :height="120">
           </template>
         </el-table-column>
         <el-table-column prop="food.name" label="商品名" />
@@ -134,7 +134,7 @@ export default {
     this.fetchData()
   },
   methods: {
-    filterHandler(filters){
+    filterHandler(filters) {
       console.log(filters)
     },
     filterTag(value, row) {
@@ -194,8 +194,8 @@ export default {
         .catch(_ => {})
     },
     onSubmit(form) {
-        updateProduct(this.form).then(res=>{
-          this.$message({
+      updateProduct(this.form).then(res => {
+        this.$message({
           message: '修改成功',
           type: 'success'
         })

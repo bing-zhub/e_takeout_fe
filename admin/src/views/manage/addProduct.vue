@@ -119,6 +119,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.form.icon = this.form.image
           addProduct(this.form).then(res => {
             this.$message({ message: '添加成功', type: 'success' })
             this.$refs[formName].resetFields()

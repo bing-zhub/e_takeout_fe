@@ -132,7 +132,8 @@ export default {
     fetchData() {
       this.listLoading = true
       this.total = 0
-      getOrders({ openId: 'oKLGx51nBAgA814f3-uZXksVTKJQ' , size:100}).then(response => {
+      getOrders({ openId: 'oKLGx51nBAgA814f3-uZXksVTKJQ', size: 10 }).then(response => {
+        console.log(response)
         this.totalData = response.data
         this.total += response.data.length
         this.listLoading = false

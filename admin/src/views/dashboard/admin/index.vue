@@ -13,23 +13,20 @@
 <script>
 import PanelGroup from './components/pannel'
 import LineChart from './components/linechart'
+import { getCompleteOrderNum, getAverageConsumption, getIncome, getProductCount } from '@/api/statics'
 
 const lineChartData = {
-  newVisitis: {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
+  CompleteOrderNum: {
+    actualData: [100, 120, 161, 134, 105, 160, 165]
   },
-  messages: {
-    expectedData: [200, 192, 120, 144, 160, 130, 140],
-    actualData: [180, 160, 151, 106, 145, 150, 130]
+  AverageConsumption: {
+    actualData: [200, 192, 120, 144, 160, 130, 140]
   },
-  purchases: {
-    expectedData: [80, 100, 121, 104, 105, 90, 100],
-    actualData: [120, 90, 100, 138, 142, 130, 130]
+  Income: {
+    actualData: [80, 100, 121, 104, 105, 90, 100]
   },
-  shoppings: {
-    expectedData: [130, 140, 141, 142, 145, 150, 160],
-    actualData: [120, 82, 91, 154, 162, 140, 130]
+  ProductCount: {
+    actualData: [130, 140, 141, 142, 145, 150, 160]
   }
 }
 
@@ -41,13 +38,27 @@ export default {
   },
   data() {
     return {
-      lineChartData: lineChartData.newVisitis
+      lineChartData: lineChartData.CompleteOrderNum
     }
   },
   methods: {
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type]
     }
+  },
+  created() {
+    getCompleteOrderNum().then((res) => {
+      lineChartData.CompleteOrderNum.actualData = res.data
+    })
+    getAverageConsumption().then((res) => {
+      lineChartData.AverageConsumption.actualData  = res.data
+    })
+    getIncome().then((res) => {
+      lineChartData.Income.actualData = res.data
+    })
+    getProductCount().then((res) => {
+      lineChartData.ProductCount.actualData = res.data
+    })
   }
 }
 </script>
