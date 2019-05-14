@@ -34,8 +34,8 @@
         <el-table-column prop="consumerName" label="客户名称" />
         <el-table-column prop="consumerPhone" label="电话" />
         <el-table-column prop="consumerAddress" label="地址" />
-        <el-table-column prop="payStatus" label="支付状态" :formatter="orderStatusFormatter" :filters="payTags" :filter-method="filterPayTag" filter-placement="bottom-end"/>
-        <el-table-column prop="orderStatus" label="订单状态" :formatter="payStatusFormatter" :filters="orderTags" :filter-method="filterOrderTag" filter-placement="bottom-end"/>
+        <el-table-column prop="payStatus" label="支付状态" :formatter="orderStatusFormatter" :filters="payTags" :filter-method="filterPayTag" filter-placement="bottom-end" />
+        <el-table-column prop="orderStatus" label="订单状态" :formatter="payStatusFormatter" :filters="orderTags" :filter-method="filterOrderTag" filter-placement="bottom-end" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleFinish(scope.$index, scope.row)">完结</el-button>
@@ -56,7 +56,7 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getOrders, cancelOrder, finishOrder } from '@/api/order'
+import { getOrders, cancelOrder, finishOrder, getWebSocketUrl } from '@/api/order'
 import { getTotal } from '@/api/statics'
 
 export default {
@@ -76,7 +76,8 @@ export default {
       ],
       total: 0,
       page: 0,
-      recordPerPage: 10
+      recordPerPage: 10,
+      websocket: null
     }
   },
   watch: {
@@ -85,12 +86,33 @@ export default {
     }
   },
   created() {
-    getTotal().then(res => {
-      this.total = res.data[0]
-    })
-    this.fetchData(this.page, this.recordPerPage)
+    this.refreshData()
+    this.initWebSocket()
   },
   methods: {
+    refreshData() {
+      getTotal().then(res => { this.total = res.data[0] })
+      this.fetchData(this.page, this.recordPerPage)
+    },
+    initWebSocket(){
+      this.websocket = new WebSocket(getWebSocketUrl())
+      this.websocket.onerror = this.websocketConnectError
+      this.websocket.onmessage = this.websocketMessageArrive
+    },
+    websocketConnectError(error) {
+      this.$message({
+        message: 'WebSocket连接出错, 订单不可实时更新',
+        type: 'error'
+      })
+    },
+    websocketMessageArrive(data) {
+      const h = this.$createElement;
+      this.$notify({
+        title: '有新订单',
+        message: h('i', { style: 'color: teal'}, data)
+      });
+      this.refreshData()
+    },
     payStatusFormatter(row, col) {
       return this.payTags[row.payStatus].text
     },
@@ -111,8 +133,8 @@ export default {
       return value === row.orderStatus
     },
     filterPage(info) {
-      if(info){
-        this.fetchData(info.page, info.limit)
+      if (info) {
+        this.fetchData(info.page - 1, info.limit)
       }
     },
     fetchData(page, size) {
