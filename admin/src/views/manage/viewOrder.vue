@@ -12,7 +12,6 @@
         style="width: 100%"
         :row-class-name="tableRowClassName"
       >
-        <el-table-column type="index" />
         <el-table-column type="expand">
           <template slot-scope="props">
             <el-row style="margin-left:20px">
@@ -35,22 +34,8 @@
         <el-table-column prop="consumerName" label="客户名称" />
         <el-table-column prop="consumerPhone" label="电话" />
         <el-table-column prop="consumerAddress" label="地址" />
-        <el-table-column
-          prop="payStatus"
-          label="支付状态"
-          :formatter="orderStatusFormatter"
-          :filters="payTags"
-          :filter-method="filterPayTag"
-          filter-placement="bottom-end"
-        />
-        <el-table-column
-          prop="orderStatus"
-          label="订单状态"
-          :formatter="payStatusFormatter"
-          :filters="orderTags"
-          :filter-method="filterOrderTag"
-          filter-placement="bottom-end"
-        />
+        <el-table-column prop="payStatus" label="支付状态" :formatter="orderStatusFormatter" :filters="payTags" :filter-method="filterPayTag" filter-placement="bottom-end"/>
+        <el-table-column prop="orderStatus" label="订单状态" :formatter="payStatusFormatter" :filters="orderTags" :filter-method="filterOrderTag" filter-placement="bottom-end"/>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleFinish(scope.$index, scope.row)">完结</el-button>
@@ -72,12 +57,12 @@
 <script>
 import Pagination from '@/components/Pagination'
 import { getOrders, cancelOrder, finishOrder } from '@/api/order'
+import { getTotal } from '@/api/statics'
 
 export default {
   components: { Pagination },
   data() {
     return {
-      totalData: [],
       tableData: [],
       listLoading: false,
       payTags: [
@@ -90,7 +75,7 @@ export default {
         { value: 2, text: '已取消' }
       ],
       total: 0,
-      page: 1,
+      page: 0,
       recordPerPage: 10
     }
   },
@@ -100,7 +85,10 @@ export default {
     }
   },
   created() {
-    this.fetchData()
+    getTotal().then(res => {
+      this.total = res.data[0]
+    })
+    this.fetchData(this.page, this.recordPerPage)
   },
   methods: {
     payStatusFormatter(row, col) {
@@ -122,20 +110,15 @@ export default {
     filterOrderTag(value, row) {
       return value === row.orderStatus
     },
-    filterPage() {
-      const start = (this.page - 1) * this.recordPerPage
-      let end = this.page * this.recordPerPage - 1
-      const t = this.totalData.length - start
-      end = Math.min(end, start + t - 1) + 1
-      this.tableData = this.totalData.slice(start, end)
+    filterPage(info) {
+      if(info){
+        this.fetchData(info.page, info.limit)
+      }
     },
-    fetchData() {
+    fetchData(page, size) {
       this.listLoading = true
-      this.total = 0
-      getOrders({ openId: 'oKLGx51nBAgA814f3-uZXksVTKJQ', size: 10 }).then(response => {
-        console.log(response)
-        this.totalData = response.data
-        this.total += response.data.length
+      getOrders({ openId: 'oKLGx51nBAgA814f3-uZXksVTKJQ', page, size }).then(response => {
+        this.tableData = response.data
         this.listLoading = false
       })
     },
