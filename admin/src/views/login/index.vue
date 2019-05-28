@@ -59,6 +59,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+var CryptoJS = require("crypto-js");
 
 export default {
   name: 'Login',
@@ -117,9 +118,13 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          var ciphertext = CryptoJS.MD5(this.loginForm.password, 'confidential').toString()
           this.loading = true
           this.$store
-            .dispatch('user/login', this.loginForm)
+            .dispatch('user/login', {
+              username: this.loginForm.username,
+              password: ciphertext
+            })
             .then(() => {
               this.$router.push({ path: this.redirect || '/' })
               this.loading = false
