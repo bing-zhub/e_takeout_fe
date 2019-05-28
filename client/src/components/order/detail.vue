@@ -93,7 +93,7 @@ export default {
   created () {
     const body = {
       'orderId': this.$route.params.orderId,
-      'openId': 'oKLGx51nBAgA814f3-uZXksVTKJQ'
+      'openId': this.$cookies.get('openid')
     }
     this.$http
       .post(api.getOrderDetail, JSON.stringify(body))

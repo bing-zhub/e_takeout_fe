@@ -1,6 +1,6 @@
 const BASEURL = '/api/'
 const frontendURL = 'http://ele.zshaopingb.cn'
-const natURL = 'http://shaoping.natapp1.cc'
+// const natURL = 'http://shaoping.natapp1.cc'
 const URL = {
   // http
   getSeller: BASEURL + 'seller/info',
@@ -11,9 +11,9 @@ const URL = {
   getOrderList: BASEURL + 'sell/buyer/order/list',
 
   // href
-  wechatPayUrl: natURL + '/pay/create',
+  wechatPayUrl: BASEURL + '/pay/create',
   sellUrl: frontendURL,
-  openidUrl: natURL + '/wechat/authorize'
+  openidUrl: BASEURL + '/wechat/authorize'
 }
 
 export default URL

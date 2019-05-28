@@ -25,5 +25,5 @@ export function finishOrder(data) {
 }
 
 export function getWebSocketUrl() {
-  return 'ws://127.0.0.1:8080/ws'
+  return 'ws://www.carwasher.com.cn:8080/ws'
 }
