@@ -73,7 +73,7 @@ export default [
   // user logout
   {
     url: '/user/logout',
-    type: 'post',
+    type: 'get',
     response: _ => {
       return {
         code: 20000,

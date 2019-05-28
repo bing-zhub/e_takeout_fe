@@ -145,8 +145,7 @@ export default {
       })
     },
     handleFinish(index, row) {
-      console.log({ orderId: row.orderId })
-      finishOrder({ orderId: row.orderId })
+      finishOrder({ openId: 'oKLGx51nBAgA814f3-uZXksVTKJQ', orderId: row.orderId })
         .then((res) => {
           this.$message({
             type: 'success',
@@ -162,7 +161,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          cancelOrder({ orderId: row.orderId }).then(res => {
+          cancelOrder({ orderId: row.orderId, openId: 'oKLGx51nBAgA814f3-uZXksVTKJQ' }).then(res => {
             if (res.code === 0) {
               this.$message({
                 type: 'success',

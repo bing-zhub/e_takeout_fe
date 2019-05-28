@@ -67,7 +67,7 @@
       <el-form>
         <el-form-item label="类型" prop="type">
           <el-radio-group v-model="form.type">
-            <el-radio v-for="(item, index) in tags" :key="index" :label="item.value">{{ item.text }}</el-radio>
+            <el-radio v-for="(item, index) in categories" :key="index" :label="item.categoryType">{{ item.categoryName }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="现价" prop="price">
@@ -98,6 +98,7 @@
 import Upload from '@/components/Upload/SingleImage'
 import Pagination from '@/components/Pagination'
 import { getProducts, updateProduct, deleteProduct } from '@/api/product'
+import { getCategories } from '@/api/category'
 
 export default {
   components: { Upload, Pagination },
@@ -122,7 +123,8 @@ export default {
       dialogVisible: false,
       total: 0,
       page: 1,
-      recordPerPage: 10
+      recordPerPage: 10,
+      categories: []
     }
   },
   watch: {
@@ -132,6 +134,9 @@ export default {
   },
   created() {
     this.fetchData()
+    getCategories(0).then(response => {
+      this.categories = response.data
+    })
   },
   methods: {
     filterHandler(filters) {
@@ -152,6 +157,7 @@ export default {
       this.total = 0
       getProducts().then(response => {
         this.totalData = []
+        this.tags = []
         const data = response.data
         data.forEach(category => {
           const type = {

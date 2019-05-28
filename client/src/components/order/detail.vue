@@ -4,7 +4,7 @@
       <div class="statuscircle" style="transform: scale(1); opacity: 1;">
         <img
           class="circleimage"
-          src="//fuss10.elemecdn.com/2/e4/bff50bab2840cdfbffeaf13a20710png.png"
+          src="http://pr0o6uaio.bkt.clouddn.com/FrWYf-tRZvlKCZJB8SXj4SoMNH94"
         >
       </div>
       <h1 class="statustext">{{order.orderStatus | orderStatusName}}</h1>
@@ -22,19 +22,16 @@
     <div class="restaurant-card">
       <div class="head listitem">
         <div class="name-wrap">
-          <img class="avatar" src="//fuss10.elemecdn.com/2/e4/bff50bab2840cdfbffeaf13a20710png.png">
+          <img class="avatar" src="http://pr0o6uaio.bkt.clouddn.com/FrWYf-tRZvlKCZJB8SXj4SoMNH94">
           <span class="name">商品信息</span>
         </div>
       </div>
       <div class="product-list listitem">
-        <ul class="cart-item" v-for="(orderDetail, index) in orderDetailList" :key="index">
-          <li class="product-item">
-            <div class="profile">
-              <p class="name">{{orderDetail.productName}}</p>
-            </div>
-            <div class="price-wrap">
-              <span class="quantity">x{{orderDetail.productQuantity}}</span>
-              <span>&yen;{{orderDetail.productPrice * orderDetail.productQuantity}}</span>
+        <ul class="cart-item">
+          <li class="product-item"  v-for="(orderDetail, index) in orderDetailList" :key="index">
+            <div style="display: inline-block;">
+              <p style="float: left">{{orderDetail.productName}} </p>
+              <p style="float: right; color: #8f4919"> x{{orderDetail.productQuantity}} &yen;{{orderDetail.productPrice * orderDetail.productQuantity}}</p>
             </div>
           </li>
         </ul>
@@ -102,6 +99,7 @@ export default {
       .post(api.getOrderDetail, JSON.stringify(body))
       .then(function (response) {
         this.order = response.body.data
+        console.log(this.order)
         this.orderDetailList = this.order.orderDetails
       })
   },
@@ -243,6 +241,9 @@ body {
     align-items: center;
     border-bottom: 1px solid rgba(7, 17, 27, 0.1);
     background-color: #fff;
+  }
+  .record-wrapper {
+    display: inline;
   }
 }
 </style>

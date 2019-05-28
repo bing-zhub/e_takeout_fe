@@ -53,6 +53,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     before(app){
       app.get('/api/goods', (req, res)=>{
         res.send(jsonData.goods)
+        console.log(req.body)
       })
       app.get('/api/seller', (req, res)=>{
         res.send(jsonData.seller)

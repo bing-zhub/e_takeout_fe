@@ -124,7 +124,7 @@ export default {
   },
   methods: {
     formatDate(val) {
-      const date = new Date(val)
+      const date = val?new Date(val): new Date()
       const year = date.getFullYear()
       const month = date.getMonth() + 1
       const day = date.getDate()
@@ -146,7 +146,7 @@ export default {
         excel.export_json_to_excel({
           header: tHeader,
           data,
-          filename: 'excel-list',
+          filename: 'categories_'+this.formatDate(),
           autoWidth: true,
           bookType: 'xlsx'
         })
@@ -176,7 +176,7 @@ export default {
       if (this.form.categoryId === '') {
         addCategory({
           categoryName: this.form.categoryName,
-          categoryType: this.form.categoryType
+          categoryType: parseInt(this.form.categoryType)
         }).then(() => {
           this.fetchData()
           this.$message({ type: 'success', message: '添加成功!' })
@@ -264,9 +264,11 @@ export default {
       })
       importCategory(data).then(res => {
         this.$message({
-          message: res.data.msg + '条数据导入成功',
+          message: res.data + '条数据导入成功',
           type: 'success'
         })
+        this.importDialogVisible = false
+        this.fetchData()
       })
     }
   }
