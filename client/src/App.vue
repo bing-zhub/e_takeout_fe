@@ -26,20 +26,29 @@ export default {
   data () {
     return {
       seller: {},
-      showHeader: true
+      showHeader: true,
+      hash: window.location.hash,
+      headerDisable: ['payment', 'order', 'check']
     }
   },
   components: {
     // header是h5标签 起别名
     'v-header': header
   },
-  created () {
-    const hash = window.location.hash
-    if (hash.indexOf('payment') > -1 || hash.indexOf('order') > -1) {
-      this.showHeader = false
-    } else {
-      this.showHeader = true
+  watch:{
+    $route(to,from){
+      this.headerDisable.forEach(val => {
+        if(to.path.indexOf(val) > -1) {
+          this.showHeader = false;
+          return;
+        }else{
+          this.showHeader = true;
+        }
+      })
     }
+  },
+  created () {
+    this.showHeader = true
     // 创建时 获取api
     this.$http.get(api.getSeller).then((response) => {
       if (response.status === 200) {
