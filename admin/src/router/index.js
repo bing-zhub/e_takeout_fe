@@ -37,7 +37,7 @@ export const constantRoutes = [
     meta: { title: '类目', icon: 'example' },
     children: [
       {
-        path: 'category',
+        path: 'view',
         name: '类目管理',
         component: () => import('@/views/manage/category'),
         meta: { title: '类目管理', icon: 'form' }
@@ -47,18 +47,18 @@ export const constantRoutes = [
   {
     path: '/product',
     component: Layout,
-    redirect: '/product/list',
+    redirect: 'list',
     name: '商品',
     meta: { title: '商品', icon: 'shopping' },
     children: [
       {
-        path: 'product/list',
+        path: 'list',
         name: '查看商品',
         component: () => import('@/views/manage/viewProduct'),
         meta: { title: '查看商品', icon: 'eye' }
       },
       {
-        path: 'product/add',
+        path: 'add',
         name: '添加商品',
         component: () => import('@/views/manage/addProduct'),
         meta: { title: '添加商品', icon: 'edit' }
@@ -68,12 +68,12 @@ export const constantRoutes = [
   {
     path: '/order',
     component: Layout,
-    redirect: '/order/view',
+    redirect: 'view',
     name: '订单',
     meta: { title: '订单', icon: 'documentation' },
     children: [
       {
-        path: 'order/list',
+        path: 'list',
         name: '订单',
         component: () => import('@/views/manage/viewOrder'),
         meta: { title: '订单', icon: 'documentation' }

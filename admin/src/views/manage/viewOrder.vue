@@ -107,11 +107,15 @@ export default {
     },
     websocketMessageArrive(data) {
       const h = this.$createElement;
-      this.$notify({
-        title: '有新订单',
-        message: h('i', { style: 'color: teal'}, data)
-      });
-      this.refreshData()
+      this.$notify.info({
+        title: '订单状态更新',
+        message: h('i', { style: 'color: teal'}, data),
+        duration: 0,
+        showClose: true,
+        onClose: ()=>{
+          this.$router.go(0)
+        }
+      })
     },
     payStatusFormatter(row, col) {
       return this.payTags[row.payStatus].text

@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-    <router-view :seller="seller" :showHeader="showHeader" />
+    <router-view :seller="seller" :showHeader="showHeader" @HideHeader="hideHeader"/>
   </div>
 </template>
 
@@ -56,6 +56,11 @@ export default {
         this.$store.commit('updateSeller', this.seller)
       }
     })
+  },
+  methods: {
+    hideHeader() {
+      this.showHeader = false
+    }
   }
 }
 </script>

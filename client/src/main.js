@@ -35,6 +35,8 @@ const store = new Vuex.Store(
   }
 )
 
+Vue.http.options.emulateJSON = false
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -91,6 +91,7 @@ export default {
     }
   },
   created () {
+    this.$emit("HideHeader")
     const body = {
       'orderId': this.$route.params.orderId,
       'openId': this.$cookies.get('openid')
@@ -140,17 +141,23 @@ export default {
   methods: {
     cancelOrder: function (orderId) {
       this.cancelOrderName = '取消中...'
+      var data = {
+        orderId: orderId,
+        openId: this.$cookies.get('openid')
+      }
+      var headers = {
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+      console.log(data)
       this.$http
-        .post(api.cancelOrder, {
-          orderId: orderId,
-          openid: this.$cookies.get('openid')
-        })
+        .post(api.cancelOrder, data, {headers})
         .then(function (response) {
+          console.log(response)
           response = response.body
           if (response.code === 0) {
             location.reload()
           } else {
-            alert('取消订单失败:' + response.msg)
+            alert('取消订单失败:' + response.message)
           }
         })
     },
