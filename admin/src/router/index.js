@@ -11,13 +11,11 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
   {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
   },
-
   {
     path: '/',
     component: Layout,
@@ -28,21 +26,6 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: '仪表盘', icon: 'dashboard' }
     }]
-  },
-  {
-    path: '/category',
-    component: Layout,
-    redirect: '/category',
-    name: '类目',
-    meta: { title: '类目', icon: 'example' },
-    children: [
-      {
-        path: 'view',
-        name: '类目管理',
-        component: () => import('@/views/manage/category'),
-        meta: { title: '类目管理', icon: 'form' }
-      }
-    ]
   },
   {
     path: '/product',
@@ -83,6 +66,28 @@ export const constantRoutes = [
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
+]
+
+/**
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+export const asyncRoutes = [
+  {
+    path: '/category',
+    component: Layout,
+    redirect: '/category',
+    name: '类目',
+    meta: { title: '类目', icon: 'example', roles: ['admin'] },
+    children: [
+      {
+        path: 'view',
+        name: '类目管理',
+        component: () => import('@/views/manage/category'),
+        meta: { title: '类目管理', icon: 'form' }
+      }
+    ]
+  }
 ]
 
 const createRouter = () => new Router({
