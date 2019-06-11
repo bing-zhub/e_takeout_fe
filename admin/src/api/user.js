@@ -8,6 +8,13 @@ export function login(data) {
   })
 }
 
+export function listSeller() {
+  return request({
+    url: '/user/list',
+    method: 'post'
+  })
+}
+
 export function getInfo(token) {
   return request({
     url: '/user/info',
@@ -20,5 +27,21 @@ export function logout() {
   return request({
     url: '/user/logout',
     method: 'get'
+  })
+}
+
+export function activateUser(username) {
+  return request({
+    url: '/user/active',
+    method: 'post',
+    data: { username }
+  })
+}
+
+export function deactivateUser(username) {
+  return request({
+    url: '/user/deactive',
+    method: 'post',
+    data: { username }
   })
 }

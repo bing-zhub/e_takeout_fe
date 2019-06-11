@@ -63,6 +63,20 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/category',
+    component: Layout,
+    name: '类目管理',
+    meta: { title: '类目', icon: 'documentation' },
+    children: [
+      {
+        path: 'list',
+        name: '3',
+        component: () => import('@/views/manage/category'),
+        meta: { title: '类目', icon: 'documentation' }
+      }
+    ]
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
@@ -74,24 +88,21 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   {
-    path: '/category',
+    path: '/seller',
     component: Layout,
-    redirect: '/category',
-    name: '类目',
-    meta: { title: '类目', icon: 'example', roles: ['admin'] },
+    meta: { title: '卖家', icon: 'example', roles: ['admin'] },
     children: [
       {
-        path: 'view',
-        name: '类目管理',
-        component: () => import('@/views/manage/category'),
-        meta: { title: '类目管理', icon: 'form' }
+        path: '',
+        name: '卖家',
+        component: () => import('@/views/manage/seller'),
+        meta: { title: '卖家', icon: 'form' }
       }
     ]
   }
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
