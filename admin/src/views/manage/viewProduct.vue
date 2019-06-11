@@ -25,11 +25,7 @@
         <el-table-column prop="food.description" label="描述" />
         <el-table-column prop="food.rating" sortable label="评价">
           <template slot-scope="scope">
-            <el-rate
-              v-model="scope.row.food.rating/20"
-              disabled
-              text-color="#ff9900"
-            />
+            <el-rate v-model="scope.row.food.rating/20" disabled text-color="#ff9900" />
           </template>
         </el-table-column>
         <el-table-column
@@ -45,13 +41,7 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-            >
-              删除
-            </el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
