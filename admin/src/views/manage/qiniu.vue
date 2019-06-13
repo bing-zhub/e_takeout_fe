@@ -9,6 +9,7 @@
 
 <script>
 import { getToken } from '@/api/qiniu'
+import { constants } from 'crypto';
 // 获取七牛token 后端通过Access Key,Secret Key,bucket等生成token
 // 七牛官方sdk https://developer.qiniu.com/sdk#official-sdk
 
@@ -36,7 +37,7 @@ export default {
       })
     },
     onSuccess(data) {
-      console.log('http://pr0o6uaio.bkt.clouddn.com/' + data.key)
+      console.log('upload successully!')
     }
   }
 }

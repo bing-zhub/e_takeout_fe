@@ -199,7 +199,7 @@ export default {
     },
     handleAdd() {
       this.btnText = '添加'
-      this.title = '添加类目'
+      this.title = '添加卖家'
       this.form.categoryId = ''
       this.form.categoryName = ''
       this.form.categoryType = ''

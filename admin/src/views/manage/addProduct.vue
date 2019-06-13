@@ -99,8 +99,8 @@ export default {
         oldPrice: '',
         description: '这个卖家很懒, 还没编辑~',
         info: '这个卖家很懒, 还没编辑~',
-        icon: 'http://pr0o6uaio.bkt.clouddn.com/FrWYf-tRZvlKCZJB8SXj4SoMNH94',
-        image: 'http://pr0o6uaio.bkt.clouddn.com/FrWYf-tRZvlKCZJB8SXj4SoMNH94',
+        icon: 'http://images.carwasher.com.cn/FrWYf-tRZvlKCZJB8SXj4SoMNH94',
+        image: 'http://images.carwasher.com.cn/FrWYf-tRZvlKCZJB8SXj4SoMNH94',
         type: '',
         stock: ''
       },
