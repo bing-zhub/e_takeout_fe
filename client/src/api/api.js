@@ -1,5 +1,5 @@
 const BASEURL = '/api/'
-const frontendURL = 'http://ele.zshaopingb.cn'
+const frontendURL = 'http://eyao.bingware.cn'
 // const natURL = 'http://shaoping.natapp1.cc'
 const URL = {
   // http
