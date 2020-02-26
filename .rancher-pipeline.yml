@@ -1,0 +1,9 @@
+stages:
+- name: Install Dependcies
+  steps:
+  - runScriptConfig:
+      image: node:latest
+      shellScript: cd client && npm install --registry=https://registry.npm.taobao.org
+        && npm run build && echo 'Installed'
+timeout: 60
+notification: {}
