@@ -2,10 +2,7 @@
   <div id="detail">
     <div class="statushead">
       <div class="statuscircle" style="transform: scale(1); opacity: 1;">
-        <img
-          class="circleimage"
-          src="http://pr0o6uaio.bkt.clouddn.com/FrWYf-tRZvlKCZJB8SXj4SoMNH94"
-        >
+        <qrcode :value="order.orderId" :options="{ width: 400 }"></qrcode>
       </div>
       <h1 class="statustext">{{order.orderStatus | orderStatusName}}</h1>
       <div class="buttons">

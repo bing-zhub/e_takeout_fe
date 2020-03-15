@@ -13,9 +13,6 @@ const portfinder = require('portfinder')
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
-// 模拟数据源
-const jsonData = require('../data.json')
-
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
@@ -48,20 +45,20 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       poll: config.dev.poll,
     },
 
-    // 模拟数据
+    // // 模拟数据
 
-    before(app){
-      app.get('/api/goods', (req, res)=>{
-        res.send(jsonData.goods)
-        console.log(req.body)
-      })
-      app.get('/api/seller', (req, res)=>{
-        res.send(jsonData.seller)
-      })
-      app.get('/api/ratings', (req, res)=>{
-        res.send(jsonData.ratings)
-      })
-    }
+    // before(app){
+    //   app.get('/api/goods', (req, res)=>{
+    //     res.send(jsonData.goods)
+    //     console.log(req.body)
+    //   })
+    //   app.get('/api/seller', (req, res)=>{
+    //     res.send(jsonData.seller)
+    //   })
+    //   app.get('/api/ratings', (req, res)=>{
+    //     res.send(jsonData.ratings)
+    //   })
+    // }
   },
   plugins: [
     new webpack.DefinePlugin({

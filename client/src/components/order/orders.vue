@@ -16,9 +16,6 @@
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
                 </svg>
               </p>
-              <!--这里使用订单状态和支付状态组合显示
-                        订单: 新下单/已完成/已取消
-              支付: 未支付/已支付-->
               <p class="status">{{item.orderStatus | formatOrderStatus(item.payStatus) }}</p>
             </div>
           </div>

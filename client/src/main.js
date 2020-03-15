@@ -6,6 +6,7 @@ import router from './router'
 import VueResource from 'vue-resource'
 import VueCookies from 'vue-cookies'
 import Vuex from 'vuex'
+import VueQrcode from '@chenfengyuan/vue-qrcode'
 
 import './common/stylus/icon.styl'
 Vue.config.productionTip = false
@@ -13,6 +14,7 @@ Vue.use(VueResource)
 Vue.use(VueCookies)
 Vue.use(Vuex)
 Vue.http.options.emulateJSON = true
+Vue.component(VueQrcode.name, VueQrcode)
 
 const state = {
   selected: [],
