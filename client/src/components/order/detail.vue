@@ -14,6 +14,9 @@
           v-if="order.orderStatus === 0"
           @click="cancelOrder(order.orderId)"
         >{{cancelOrderName}}</button>
+        location / {
+       proxy_pass  http://127.0.0.1:8080;
+    }
       </div>
     </div>
     <div class="restaurant-card">

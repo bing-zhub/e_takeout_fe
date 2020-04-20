@@ -64,7 +64,7 @@ export default {
       this.$emit('input', val)
     },
     handleImageSuccess(file) {
-      const path = 'http://images.carwasher.com.cn/' + file.key
+      const path = 'http://assets.bingware.cn/' + file.key
       this.emitInput(path)
     },
     beforeUpload() {

@@ -61,10 +61,10 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="现价" prop="price">
-          <el-input-number v-model="form.price" controls-position="right" />
+          <el-input-number v-model="form.price" :min="0" controls-position="right" />
         </el-form-item>
         <el-form-item label="原价">
-          <el-input-number v-model="form.oldPrice" controls-position="right" />
+          <el-input-number v-model="form.oldPrice" :min="0" controls-position="right" />
         </el-form-item>
 
         <el-form-item label="描述">
